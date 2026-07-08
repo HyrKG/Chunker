@@ -37,3 +37,6 @@ build/
 
 # Testing
 output/
+
+# Vibe Coding
+.zcode/
