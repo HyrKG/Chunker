@@ -2,7 +2,8 @@ import React, {Component} from "react";
 import {BiomeMapping} from "./biomes/biomeMapping";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
-import {getFormatName, getVersionName} from "../../mode/modeOption";
+import {getLocalizedFormatName, getVersionName} from "../../mode/modeOption";
+import {t} from "../../../../i18n";
 
 export class BiomeMappingsTab extends Component {
     app = this.props.app;
@@ -37,31 +38,29 @@ export class BiomeMappingsTab extends Component {
 
     render() {
         let inputVersion = getVersionName(this.app.state.inputType.id);
-        let inputFormat = getFormatName(this.app.state.inputType.id);
+        let inputFormat = getLocalizedFormatName(this.app.state.inputType.id);
         let outputVersion = getVersionName(this.app.state.outputType.id);
-        let outputFormat = getFormatName(this.app.state.outputType.id);
+        let outputFormat = getLocalizedFormatName(this.app.state.outputType.id);
         const entries = Object.entries(this.app.state.biomeMapping);
         return (
             <div>
                 <div className="topbar">
-                    <h1>Biome Mapping</h1>
-                    <h2><b>Biome mappings allow you to turn one biome into another.</b> Biomes which match the input
-                        will be replaced with the output during conversion.
+                    <h1>{t("biomes.title")}</h1>
+                    <h2><b>{t("biomes.subtitleBefore")}</b>{t("biomes.subtitleAfter")}
                     </h2>
                 </div>
                 <div className="main_content settings dimensions">
                     {(this.app.state.inputBiomeSuggestions.length === 0 || this.app.state.outputBiomeSuggestions.length === 0) &&
-                        <div align="center">Biome Mapping is currently not available for the current world
-                            input/output format.
+                        <div align="center">{t("biomes.unavailable")}
                         </div>}
                     {this.app.state.inputBiomeSuggestions.length > 0 && this.app.state.outputBiomeSuggestions.length > 0 &&
                         <div>
                             <div className="mappings-row">
                                 <div className="mappings-entry" align="center">
-                                    <span>Input Biome ({inputFormat} {inputVersion})</span>
+                                    <span>{t("biomes.inputBiome", {format: inputFormat, version: inputVersion})}</span>
                                 </div>
                                 <div className="mappings-entry" align="center">
-                                    <span>Output Biome ({outputFormat} {outputVersion})</span>
+                                    <span>{t("biomes.outputBiome", {format: outputFormat, version: outputVersion})}</span>
                                 </div>
                                 <div className="mappings-delete">
                                     <button className="icon-button" style={{visibility: "hidden"}}>

@@ -40,7 +40,7 @@ body {
     background: url("../images/bg.png") repeat-x center 0px #f3f3f3;
     margin: 0;
     padding: 0;
-    font: 14px/1.8em 'Noto Sans', Arial, sans-serif;
+    font: 14px/1.8em 'Noto Sans', 'Microsoft YaHei', 'PingFang SC', 'Noto Sans SC', Arial, sans-serif;
     color: #696969;
     display: flex;
     flex-direction: column;
@@ -55,7 +55,7 @@ h1 {
 }
 
 h2 {
-    font: 14px/1.4em 'Noto Sans', Arial, sans-serif;
+    font: 14px/1.4em 'Noto Sans', 'Microsoft YaHei', 'PingFang SC', 'Noto Sans SC', Arial, sans-serif;
     color: #696969;
     margin: 0;
     padding: 0;
@@ -122,7 +122,7 @@ p {
     background: #d8d9d9;
     box-shadow: inset 7px -7px rgba(0, 0, 0, 0.05), inset -7px 7px 0 #e5e5e5;
     padding: 20px;
-    font: bold 16px/1.6em 'Noto Sans', Arial, sans-serif;
+    font: bold 16px/1.6em 'Noto Sans', 'Microsoft YaHei', 'PingFang SC', 'Noto Sans SC', Arial, sans-serif;
     color: #535353;
     cursor: pointer;
     position: relative;
@@ -178,7 +178,7 @@ label.gray_box:active {
 }
 
 .white_box .legend {
-    font: bold 16px/1em 'Noto Sans', Arial, sans-serif;
+    font: bold 16px/1em 'Noto Sans', 'Microsoft YaHei', 'PingFang SC', 'Noto Sans SC', Arial, sans-serif;
     color: #222222;
     padding: 12px 10px 12px 0;
 }
@@ -219,7 +219,7 @@ input[type="text"], input[type="number"], select {
     padding: 0 10px;
     margin: 0;
     color: #696969;
-    font: 16px/1em 'Noto Sans', Arial, sans-serif;
+    font: 16px/1em 'Noto Sans', 'Microsoft YaHei', 'PingFang SC', 'Noto Sans SC', Arial, sans-serif;
     box-sizing: border-box;
 }
 
@@ -231,7 +231,7 @@ select {
 
 .button {
     display: inline-block;
-    font: 16px/1em 'MetropolisBold', Arial, sans-serif;
+    font: 16px/1em 'MetropolisBold', 'Microsoft YaHei', 'PingFang SC', Arial, sans-serif;
     color: #fff;
     text-transform: uppercase;
     text-shadow: 0 1px rgba(0, 0, 0, 0.2);
@@ -250,7 +250,7 @@ select {
 
 .small {
     text-shadow: 0 1px rgba(0, 0, 0, 0.2);
-    font: 12px/1em 'MetropolisBold', Arial, sans-serif;
+    font: 12px/1em 'MetropolisBold', 'Microsoft YaHei', 'PingFang SC', Arial, sans-serif;
     padding: 14px;
     margin: 0 0;
 }
@@ -625,7 +625,7 @@ input:checked + .switch:before {
 #content .sidebar ul li button {
     display: flex;
     background: #221525;
-    font: 16px/1em "MetropolisBold", Arial, sans-serif;
+    font: 16px/1em "MetropolisBold", 'Microsoft YaHei', 'PingFang SC', Arial, sans-serif;
     color: #bc91c5;
     text-transform: uppercase;
     padding: 15px 60px 15px 20px;
@@ -699,7 +699,7 @@ input:checked + .switch:before {
 
 .tabs li button {
     background: #e3e3e3;
-    font: 16px/1em "MetropolisBold", Arial, sans-serif;
+    font: 16px/1em "MetropolisBold", 'Microsoft YaHei', 'PingFang SC', Arial, sans-serif;
     color: #4c5c63;
     text-transform: uppercase;
     padding: 18px 20px;
@@ -770,7 +770,7 @@ input:checked + .switch:before {
 }
 
 #footer .footer_top ul li a {
-    font: 16px/1.2em 'MetropolisBold', Arial, sans-serif;
+    font: 16px/1.2em 'MetropolisBold', 'Microsoft YaHei', 'PingFang SC', Arial, sans-serif;
     color: #797979;
     text-transform: uppercase;
     margin: 0 30px 0 0;
@@ -897,7 +897,7 @@ input:checked + .switch:before {
 
 .export .gray_box .labels span {
     background: #cc6eae;
-    font: 12px/1em 'Noto Sans', Arial, sans-serif;
+    font: 12px/1em 'Noto Sans', 'Microsoft YaHei', 'PingFang SC', 'Noto Sans SC', Arial, sans-serif;
     color: #fff;
     text-shadow: 0 1px rgba(0, 0, 0, 0.3);
     padding: 6px;
@@ -926,7 +926,7 @@ input:checked + .switch:before {
 .settings input[type="radio"] + label {
     border: 1px solid #0190af;
     color: #0190af;
-    font: 14px/40px 'Noto Sans', Arial, sans-serif;
+    font: 14px/40px 'Noto Sans', 'Microsoft YaHei', 'PingFang SC', 'Noto Sans SC', Arial, sans-serif;
     text-transform: uppercase;
     display: inline-block;
     padding: 0 10px;
@@ -1114,4 +1114,34 @@ input:checked + .switch:before {
 
 .api input {
     width: 50%;
+}
+
+/* Language switcher */
+.language-switcher {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    z-index: 1000;
+    display: flex;
+    gap: 4px;
+}
+
+.lang-button {
+    font: 12px/1em 'Noto Sans', 'Microsoft YaHei', 'PingFang SC', 'Noto Sans SC', Arial, sans-serif;
+    padding: 4px 8px;
+    border: 1px solid #ccc;
+    background: #f5f5f5;
+    color: #333;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.lang-button:hover {
+    background: #e9e9e9;
+}
+
+.lang-button.active {
+    background: #1d5faa;
+    color: #fff;
+    border-color: #1d5faa;
 }

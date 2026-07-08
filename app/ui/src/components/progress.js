@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {t} from "../i18n";
 
 export function Round2DP(number) {
     return number.toFixed(2) + "";
@@ -21,16 +22,16 @@ export class ProgressComponent extends Component {
         } else {
             if (this.props.progress.isCancelled() || this.props.progress.isErrored()) {
                 return (<div>
-                    {this.props.progress.isErrored() ? (<h3>The task was unable to complete.</h3>) : (
-                        <h3>This task was cancelled.</h3>)}
+                    {this.props.progress.isErrored() ? (<h3>{t("progress.unableToComplete")}</h3>) : (
+                        <h3>{t("progress.cancelled")}</h3>)}
                 </div>);
             } else {
                 if (this.props.progress.state.queuePosition < 0) {
                     return (<div className={"progress_bar_container"}>
                         {!this.props.progress.isAnimated() &&
-                            <h3>{this.props.progress.getName() || "Running"}: <span>{Round2DP(this.props.progress.getProgress())}%</span>
+                            <h3>{this.props.progress.getName() || t("progress.running")}: <span>{Round2DP(this.props.progress.getProgress())}%</span>
                             </h3>}
-                        {this.props.progress.isAnimated() && <h3>{this.props.progress.getName() || "Running"}</h3>}
+                        {this.props.progress.isAnimated() && <h3>{this.props.progress.getName() || t("progress.running")}</h3>}
                         <div className={this.props.progress.isAnimated() ? "progress_bar animated" : "progress_bar"}>
                             {!this.props.progress.isAnimated() &&
                                 <div className="progress_fill"
@@ -42,21 +43,21 @@ export class ProgressComponent extends Component {
                                     <button onClick={(e) => {
                                         e.preventDefault();
                                         this.props.progress.cancel();
-                                    }}>Cancel
+                                    }}>{t("progress.cancel")}
                                     </button>
                                 </h3>
                                 <br/></div>}
                     </div>);
                 } else {
                     return (<div>
-                        <h3>You are #{this.props.progress.getQueuePosition()} in the queue</h3>
+                        <h3>{t("progress.queuePosition", {n: this.props.progress.getQueuePosition()})}</h3>
                         {this.props.progress.canCancel() && this.cancel &&
                             <div>
                                 <h3>
                                     <button onClick={(e) => {
                                         e.preventDefault();
                                         this.props.progress.cancel();
-                                    }}>Cancel
+                                    }}>{t("progress.cancel")}
                                     </button>
                                 </h3>
                                 <br/></div>}
@@ -71,7 +72,7 @@ export class ProgressComponent extends Component {
 export class ProgressTracker {
     cancelFunction = undefined;
     state = {
-        name: "Running task...",
+        name: t("progress.runningTask"),
         progress: 0,
         queuePosition: 0,
         cancelled: false,

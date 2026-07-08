@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {t} from "../../../../../i18n";
 
 export class SliderType extends Component {
     onChangeValue = (event) => {
@@ -118,9 +119,9 @@ export class SettingsInput extends Component {
                     {(((this.props.base.description && this.props.base.description.length > 0 && this.props.base.type !== "Button") || this.props.base.java !== this.props.base.bedrock)) &&
                         <span className="tooltip">
                             {this.props.base.java === true && this.props.base.bedrock === false &&
-                                <strong>Java only.&nbsp;</strong>}
+                                <strong>{t("common.javaOnly")}&nbsp;</strong>}
                             {this.props.base.java === false && this.props.base.bedrock === true &&
-                                <strong>Bedrock only.&nbsp;</strong>}
+                                <strong>{t("common.bedrockOnly")}&nbsp;</strong>}
                             {this.props.base.description}
                         </span>
                     }{this.props.name}

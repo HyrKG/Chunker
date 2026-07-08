@@ -10,6 +10,7 @@ import {PaletteMappingsTab} from "./tab/paletteMappingsTab";
 import {BiomeMappingsTab} from "./tab/biomeMappingsTab";
 import {ConverterSettingsTab} from "./tab/converterSettingsTab";
 import {CLIExportTab} from "./tab/cliTab";
+import {t} from "../../../i18n";
 
 export class SettingsScreen extends BaseScreen {
     state = {
@@ -35,33 +36,33 @@ export class SettingsScreen extends BaseScreen {
                     <ul>
                         <li>
                             <button className={this.state.tab === "preview" ? "active" : ""}
-                                    onClick={(e) => this.switchTab("preview", e)}>World Preview
+                                    onClick={(e) => this.switchTab("preview", e)}>{t("settings.worldPreview")}
                             </button>
                         </li>
                         <li>
                             <button className={this.state.tab === "settings" ? "active" : ""}
-                                    onClick={(e) => this.switchTab("settings", e)}>World Settings
+                                    onClick={(e) => this.switchTab("settings", e)}>{t("settings.worldSettings")}
                             </button>
                         </li>
                         <li>
                             <button className={this.state.tab === "dimensions" ? "active" : ""}
-                                    onClick={(e) => this.switchTab("dimensions", e)}>Dimensions/Pruning
+                                    onClick={(e) => this.switchTab("dimensions", e)}>{t("settings.dimensionsPruning")}
                             </button>
                         </li>
                         <li>
                             <button className={this.state.tab === "mappings" ? "active" : ""}
-                                    onClick={(e) => this.switchTab("mappings", e)}>Block Mapping
+                                    onClick={(e) => this.switchTab("mappings", e)}>{t("settings.blockMapping")}
                             </button>
                         </li>
                         <li>
                             <button className={this.state.tab === "biomes" ? "active" : ""}
-                                    onClick={(e) => this.switchTab("biomes", e)}>Biome Mapping
+                                    onClick={(e) => this.switchTab("biomes", e)}>{t("settings.biomeMapping")}
                             </button>
                         </li>
                         <li>
                             <button
                                 className={this.state.tab === "converter" || this.state.tab === "api" ? "active" : ""}
-                                onClick={(e) => this.switchTab("converter", e)}>Converter Settings
+                                onClick={(e) => this.switchTab("converter", e)}>{t("settings.converterSettings")}
                             </button>
                         </li>
                     </ul>
@@ -90,10 +91,10 @@ export class SettingsScreen extends BaseScreen {
                     }
 
                     <div className="bottombar">
-                        <button onClick={() => window.location.reload()} type="submit" className="button red">Restart
+                        <button onClick={() => window.location.reload()} type="submit" className="button red">{t("common.restart")}
                         </button>
-                        <button className="button magenta" onClick={this.previousScreen}>Switch Mode</button>
-                        <button className="button green" onClick={this.nextScreen}>Convert</button>
+                        <button className="button magenta" onClick={this.previousScreen}>{t("settings.switchMode")}</button>
+                        <button className="button green" onClick={this.nextScreen}>{t("common.convert")}</button>
                     </div>
                 </div>
             </React.Fragment>

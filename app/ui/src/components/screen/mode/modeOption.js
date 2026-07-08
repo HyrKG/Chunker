@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {t} from "../../../i18n";
 
 export function getFormatName(id) {
     const type = id.split("_")[0];
@@ -24,13 +25,24 @@ export function getVersionName(inputVersionName) {
     return version;
 }
 
+/**
+ * Localized format name (e.g. "Java" / "基岩") for display.
+ * Falls back to getFormatName for unknown formats.
+ */
+export function getLocalizedFormatName(id) {
+    let type = id.split("_")[0].toUpperCase();
+    if (type === "JAVA") return t("format.java");
+    if (type === "BEDROCK") return t("format.bedrock");
+    return getFormatName(id);
+}
+
 export class ModeOption extends Component {
     render() {
         let version = this.props.value.version ? this.props.value.version : getVersionName(this.props.type);
         let java = this.props.type.startsWith("JAVA_");
         let bedrock = this.props.type.startsWith("BEDROCK_");
         let beta = (bedrock && version === "1.26.30") || (java && version === "26.2.0"); // Beta label
-        let label = getFormatName(this.props.type) + ((java || bedrock) ? " Edition" : "");
+        let label = getLocalizedFormatName(this.props.type) + ((java || bedrock) ? t("mode.editionSuffix") : "");
         return (
             <div>
                 <input type="radio" value={this.props.type} checked={this.props.selected === this.props.type}
@@ -39,8 +51,8 @@ export class ModeOption extends Component {
                     {label}
                     <span className="version">{version}</span>
                     <span className="labels">
-                        {this.props.source && <span>Source Version</span>}
-                        {beta && <span className="beta">Beta</span>}
+                        {this.props.source && <span>{t("mode.sourceVersion")}</span>}
+                        {beta && <span className="beta">{t("mode.beta")}</span>}
                     </span>
                 </label>
             </div>

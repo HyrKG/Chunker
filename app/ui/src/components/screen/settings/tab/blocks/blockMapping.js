@@ -2,6 +2,7 @@ import React, {PureComponent} from "react";
 import {BlockSelector} from "./blockSelector";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
+import {t} from "../../../../../i18n";
 
 export class BlockMapping extends PureComponent {
     render() {
@@ -9,7 +10,7 @@ export class BlockMapping extends PureComponent {
             <div className="mappings-row">
                 <div className="mappings-entry">
                     <BlockSelector
-                        placeholder={"Select input block"}
+                        placeholder={t("blocks.selectInputBlock")}
                         identifier={this.props.value.old_identifier}
                         states={this.props.value.old_state_values}
                         java={this.props.inputJava}
@@ -25,7 +26,7 @@ export class BlockMapping extends PureComponent {
                 </div>
                 <div className="mappings-entry">
                     <BlockSelector
-                        placeholder={this.props.value.new_identifier === undefined ? "Matches input block" : "Select output block"}
+                        placeholder={this.props.value.new_identifier === undefined ? t("blocks.matchesInput") : t("blocks.selectOutputBlock")}
                         identifier={this.props.value.new_identifier}
                         states={this.props.value.new_state_values}
                         java={this.props.outputJava}
@@ -42,7 +43,7 @@ export class BlockMapping extends PureComponent {
                 <div className="mappings-delete">
                     <button
                         className="icon-button"
-                        title="Delete entry"
+                        title={t("blocks.deleteEntry")}
                         disabled={!this.props.canDelete}
                         onClick={this.props.onDelete}
                     >

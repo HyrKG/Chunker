@@ -82,7 +82,7 @@
 .warning {
     padding: 10px !important;
     background: #cc6e6e;
-    font: 14px/1em 'Noto Sans', Arial, sans-serif;
+    font: 14px/1em 'Noto Sans', 'Microsoft YaHei', 'PingFang SC', 'Noto Sans SC', Arial, sans-serif;
     color: #fff;
     text-shadow: 0 1px rgba(0, 0, 0, 0.3);
     display: inline;

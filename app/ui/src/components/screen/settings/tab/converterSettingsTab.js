@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {SettingsInput} from "./world_settings/settingsInput";
 import {saveAs} from "file-saver";
 import JSZip from "jszip";
+import {t} from "../../../../i18n";
 
 export class ConverterSettingsTab extends Component {
     app = this.props.app;
@@ -22,45 +23,45 @@ export class ConverterSettingsTab extends Component {
     getOptions = () => {
         let normal = [
             {
-                "display": "Passthrough Custom Identifiers",
+                "display": t("converter.customIdentifiers.display"),
                 "name": "customIdentifiers",
-                "description": "Whether custom identifiers outside the minecraft namespace are allowed to be read / written. This should be disabled if you want to prevent modded blocks from being converted.",
+                "description": t("converter.customIdentifiers.description"),
                 "type": "Boolean"
             },
             {
-                "display": "Calculate Block Connections Using Neighbours",
+                "display": t("converter.blockConnections.display"),
                 "name": "blockConnections",
-                "description": "When reading legacy/bedrock worlds, block-connections are used to connect chests/fences/panes, this can hold neighbouring chunks from being converted but greatly increases conversion accuracy as blocks on the edge can have data fetched from surrounding chunks.",
+                "description": t("converter.blockConnections.description"),
                 "type": "Boolean"
             },
             {
-                "display": "Convert Items",
+                "display": t("converter.itemConversion.display"),
                 "name": "itemConversion",
-                "description": "Whether converting items should be enabled.",
+                "description": t("converter.itemConversion.description"),
                 "type": "Boolean"
             },
             {
-                "display": "Convert Structure Loot Tables",
+                "display": t("converter.lootTableConversion.display"),
                 "name": "lootTableConversion",
-                "description": "Whether the converter should attempt to match structure loot table files.",
+                "description": t("converter.lootTableConversion.description"),
                 "type": "Boolean"
             },
             {
-                "display": "In-Game Map Conversion",
+                "display": t("converter.mapConversion.display"),
                 "name": "mapConversion",
-                "description": "Whether converting in-game maps should be enabled.",
+                "description": t("converter.mapConversion.description"),
                 "type": "Boolean"
             },
             {
-                "display": "Discard Empty Chunks",
+                "display": t("converter.discardEmptyChunks.display"),
                 "name": "discardEmptyChunks",
-                "description": "Whether empty chunk data should not be written.",
+                "description": t("converter.discardEmptyChunks.description"),
                 "type": "Boolean"
             },
             {
-                "display": "Prevent Y Biome Blending",
+                "display": t("converter.preventYBiomeBlending.display"),
                 "name": "preventYBiomeBlending",
-                "description": "Whether empty chunks should be padded at the top of each column to prevent vertical biome blending (Java only).",
+                "description": t("converter.preventYBiomeBlending.description"),
                 "type": "Boolean"
             }
         ];
@@ -68,9 +69,9 @@ export class ConverterSettingsTab extends Component {
         // If bedrock output add bedrock states
         if (this.app.state.outputType.id.startsWith("BEDROCK")) {
             normal = normal.concat({
-                "display": "Enable LevelDB Compact",
+                "display": t("converter.enableCompact.display"),
                 "name": "enableCompact",
-                "description": "Compacts the database at the end, may cause longer conversion times.",
+                "description": t("converter.enableCompact.description"),
                 "type": "Boolean"
             });
         }
@@ -94,7 +95,7 @@ export class ConverterSettingsTab extends Component {
         zip.file("dimension_mappings.chunker.json", this.app.getDimensionMappingsJSON());
         zip.file("biome_mappings.chunker.json", this.app.getBiomeMappingsJSON());
         zip.file("custom_dimensions.chunker.json", this.app.getCustomDimensionsJSON());
-        zip.file("README.txt", "Please copy the .json files in this folder to the same directory as your level.dat, Chunker will automatically preload these when you select your world.");
+        zip.file("README.txt", t("converter.readme"));
 
         zip.generateAsync({type: "blob"}).then(function (blob) {
             saveAs(blob, "ExportedChunkerSettings.zip");
@@ -110,9 +111,8 @@ export class ConverterSettingsTab extends Component {
             <div>
                 <React.Fragment>
                     <div className="topbar">
-                        <h1>Converter Settings</h1>
-                        <h2>This tab allows you to disable/enable some of the features on the world converter, doing so
-                            may lead to faster conversions but lower quality.</h2>
+                        <h1>{t("converter.title")}</h1>
+                        <h2>{t("converter.subtitle")}</h2>
                     </div>
                     <div className="main_content settings dimensions">
                         {settings.map(setting => (
@@ -121,25 +121,23 @@ export class ConverterSettingsTab extends Component {
                         ))}
                         <div className="white_box">
                             <label className="legend" htmlFor="name">
-                                <span className="tooltip">Placing these files in the same directory as your level.dat will load them when the world is loaded with Chunker.</span>Export
-                                Settings for Preloading
+                                <span className="tooltip">{t("converter.exportPreloadTooltip")}</span>{t("converter.exportPreloadLabel")}
                             </label>
                             <div className="fields">
                                 <button
                                     className="button blue small"
-                                    onClick={(e) => this.downloadEmbedded()}>Save .zip
+                                    onClick={(e) => this.downloadEmbedded()}>{t("converter.saveZip")}
                                 </button>
                             </div>
                         </div>
                         <div className="white_box">
                             <label className="legend" htmlFor="name">
-                                <span className="tooltip">Allows you to get your current settings as CLI usage.</span>Export
-                                Settings for CLI Usage
+                                <span className="tooltip">{t("converter.exportCliTooltip")}</span>{t("converter.exportCliLabel")}
                             </label>
                             <div className="fields">
                                 <button
                                     className="button magenta small"
-                                    onClick={(e) => this.app.screen.current.switchTab("cli", e)}>Export
+                                    onClick={(e) => this.app.screen.current.switchTab("cli", e)}>{t("converter.export")}
                                 </button>
                             </div>
                         </div>

@@ -1,10 +1,11 @@
 import React, {Component} from "react";
+import {t} from "../../i18n";
 
 export class ErrorDisplay extends Component {
     modal = React.createRef();
     state = {
-        title: "Could not load App",
-        body: "Something went wrong trying to load the app :(",
+        title: t("errors.couldNotLoadTitle"),
+        body: t("errors.couldNotLoadBody"),
         canClose: true,
         stackTrace: undefined,
         errorId: undefined
@@ -15,21 +16,21 @@ export class ErrorDisplay extends Component {
         return (
             <div className="modal_overlay">
                 <div className="modal">
-                    <h3>Oops, {this.state.title}</h3>
-                    <p>{this.state.body}<br/>If this error continues please report it to us via our <a target="_blank"
+                    <h3>{t("errors.oops", {title: this.state.title})}</h3>
+                    <p>{this.state.body}<br/>{t("errors.reportIntro")}<a target="_blank"
                                                                                                        rel="noreferrer"
-                                                                                                       href={url}>GitHub
-                        issues</a>.</p>
+                                                                                                       href={url}>{t("errors.githubIssues")}
+                        </a>.</p>
                     <p>
                         {this.state.canClose &&
-                            <button className="button green" onClick={this.props.close}>Close</button>
+                            <button className="button green" onClick={this.props.close}>{t("common.close")}</button>
                         }
                         {!this.state.canClose &&
-                            <button className="button blue" onClick={() => document.location.reload()}>Restart</button>
+                            <button className="button blue" onClick={() => document.location.reload()}>{t("common.restart")}</button>
                         }
                     </p>
                     {this.state.errorId &&
-                        <p>Error identifier: <span className="code">{this.state.errorId}</span></p>
+                        <p>{t("errors.errorIdentifier")}<span className="code">{this.state.errorId}</span></p>
                     }
                 </div>
             </div>

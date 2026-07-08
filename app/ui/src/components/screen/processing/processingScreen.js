@@ -3,11 +3,12 @@ import {BaseScreen} from "../baseScreen";
 import {SaveScreen} from "../save/saveScreen";
 import api from "../../../api";
 import {ProgressComponent, ProgressTracker} from "../../progress";
-import {getFormatName, getVersionName} from "../mode/modeOption";
+import {getLocalizedFormatName, getVersionName} from "../mode/modeOption";
+import {t} from "../../../i18n";
 
 export class ProcessingScreen extends BaseScreen {
     mounted = true;
-    progress = new ProgressTracker("Converting world", (newState) => this.setState({progress: newState}), this.app.cancelTask);
+    progress = new ProgressTracker(t("processing.convertingWorld"), (newState) => this.setState({progress: newState}), this.app.cancelTask);
     state = {
         progress: this.progress.state
     };
@@ -46,7 +47,7 @@ export class ProcessingScreen extends BaseScreen {
             }, function (message) {
                 if (message.type === "error") {
                     console.info("Failed to set settings: " + message.error);
-                    self.app.showError("Failed to set world settings", message.error, message.errorId, message.stackTrace, false);
+                    self.app.showError(t("errors.failedSetSettingsTitle"), message.error, message.errorId, message.stackTrace, false);
                 } else {
                     self.convertSetName();
                 }
@@ -65,7 +66,7 @@ export class ProcessingScreen extends BaseScreen {
         }, function (message) {
             if (message.type === "error") {
                 console.info("Failed to set settings: " + message.error);
-                self.app.showError("Failed to set world settings", message.error, message.errorId, message.stackTrace, false);
+                self.app.showError(t("errors.failedSetSettingsTitle"), message.error, message.errorId, message.stackTrace, false);
             } else {
                 self.convertSetDimensionRegistry();
             }
@@ -83,7 +84,7 @@ export class ProcessingScreen extends BaseScreen {
         }, function (message) {
             if (message.type === "error") {
                 console.info("Failed to set custom dimensions: " + message.error);
-                self.app.showError("Failed to set custom dimensions", message.error, message.errorId, message.stackTrace, false);
+                self.app.showError(t("errors.failedCustomDimensionsTitle"), message.error, message.errorId, message.stackTrace, false);
             } else {
                 self.convertSetDimensionMappings();
             }
@@ -101,7 +102,7 @@ export class ProcessingScreen extends BaseScreen {
         }, function (message) {
             if (message.type === "error") {
                 console.info("Failed to set dimension mappings: " + message.error);
-                self.app.showError("Failed to set dimension mappings", message.error, message.errorId, message.stackTrace, false);
+                self.app.showError(t("errors.failedDimensionMappingsTitle"), message.error, message.errorId, message.stackTrace, false);
             } else {
                 self.convertSetPruning();
             }
@@ -123,7 +124,7 @@ export class ProcessingScreen extends BaseScreen {
         }, function (message) {
             if (message.type === "error") {
                 console.info("Failed to set pruning: " + message.error);
-                self.app.showError("Failed to set pruning settings", message.error, message.errorId, message.stackTrace, false);
+                self.app.showError(t("errors.failedPruningTitle"), message.error, message.errorId, message.stackTrace, false);
             } else {
                 self.convertSetMappings();
             }
@@ -146,7 +147,7 @@ export class ProcessingScreen extends BaseScreen {
         }, function (message) {
             if (message.type === "error") {
                 console.info("Failed to set mappings: " + message.error);
-                self.app.showError("Failed to set mappings", message.error, message.errorId, message.stackTrace, false);
+                self.app.showError(t("errors.failedMappingsTitle"), message.error, message.errorId, message.stackTrace, false);
             } else {
                 self.convertSetBiomeMappings();
             }
@@ -173,7 +174,7 @@ export class ProcessingScreen extends BaseScreen {
         }, function (message) {
             if (message.type === "error") {
                 console.info("Failed to set biome mappings: " + message.error);
-                self.app.showError("Failed to set biome mappings", message.error, message.errorId, message.stackTrace, false);
+                self.app.showError(t("errors.failedBiomeMappingsTitle"), message.error, message.errorId, message.stackTrace, false);
             } else {
                 self.convertStartConversion();
             }
@@ -194,7 +195,7 @@ export class ProcessingScreen extends BaseScreen {
             if (message.type === "error") {
                 console.info("Failed to convert: " + message.error);
                 if (!message.cancelled) {
-                    self.app.showError("Failed to convert world", message.error, message.errorId, message.stackTrace, false);
+                    self.app.showError(t("errors.failedConvertTitle"), message.error, message.errorId, message.stackTrace, false);
                 }
             } else if (message.type === "response") {
                 self.app.setState({convertResult: message.output});
@@ -207,20 +208,19 @@ export class ProcessingScreen extends BaseScreen {
 
     render() {
         let version = getVersionName(this.app.state.outputType.id);
-        let format = getFormatName(this.app.state.outputType.id);
+        let format = getLocalizedFormatName(this.app.state.outputType.id);
 
         return (
             <div className="maincol">
                 <div className="topbar">
-                    <h1>Converting</h1>
-                    <h2>We're currently converting your world
-                        to {format} Edition {version}</h2>
+                    <h1>{t("processing.title")}</h1>
+                    <h2>{t("processing.subtitle", {format: format, version: version})}</h2>
                 </div>
                 {!this.progress.isErrored() && !this.progress.isCancelled() &&
                     <div className="main_content main_content_progress">
                         <ProgressComponent progress={this.progress} cancel={false}/>
-                        <p>Please wait while we convert your world.</p>
-                        <p>We hope you'll dig the conversion.</p>
+                        <p>{t("processing.waitConvert")}</p>
+                        <p>{t("processing.hopeDig")}</p>
                     </div>
                 }
                 {(this.progress.isErrored() || this.progress.isCancelled()) &&
@@ -231,12 +231,12 @@ export class ProcessingScreen extends BaseScreen {
                 <div className="bottombar">
                     {(this.progress.isErrored() || this.progress.isCancelled()) &&
                         <button onClick={() => window.location.reload()} type="submit"
-                                className="button red">Restart</button>}
+                                className="button red">{t("common.restart")}</button>}
                     {(!this.progress.isErrored() && !this.progress.isCancelled()) &&
-                        <button className="button red" onClick={() => this.progress.cancel()}>Cancel
+                        <button className="button red" onClick={() => this.progress.cancel()}>{t("common.cancel")}
                         </button>}
                     {(!this.progress.isErrored() && !this.progress.isCancelled()) &&
-                        <button type="submit" className="button green" disabled="disabled">Converting...</button>}
+                        <button type="submit" className="button green" disabled="disabled">{t("processing.converting")}</button>}
                 </div>
             </div>
         );

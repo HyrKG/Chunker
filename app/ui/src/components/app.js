@@ -8,13 +8,14 @@ import {ErrorDisplay} from "./modal/errorDisplay";
 import {Footer} from "./page/footer";
 import {decode} from "base64-arraybuffer"
 import {getFormatName, getVersionName} from "./screen/mode/modeOption";
+import {t, subscribe, getLanguage} from "../i18n";
 
 export class App extends Component {
     errorModal = React.createRef();
-    previewProgress = new ProgressTracker("Generating world preview", (newState) => this.setState({previewProgress: newState}), () => {
+    previewProgress = new ProgressTracker(t("processing.generatingPreview"), (newState) => this.setState({previewProgress: newState}), () => {
         this.cancelTask()
     });
-    settingsProgress = new ProgressTracker("Grabbing world information", (newState) => this.setState({settingsProgress: newState}));
+    settingsProgress = new ProgressTracker(t("processing.grabbingInfo"), (newState) => this.setState({settingsProgress: newState}));
     screen = React.createRef();
     defaultConverterSettings = {
         customIdentifiers: true,
@@ -57,8 +58,17 @@ export class App extends Component {
         },
         biomeMapping: {},
         customDimensions: {},
-        converterSettings: {}
+        converterSettings: {},
+        language: getLanguage()
     };
+
+    componentDidMount() {
+        this.unsubscribeLanguage = subscribe(() => this.setState({language: getLanguage()}));
+    }
+
+    componentWillUnmount() {
+        if (this.unsubscribeLanguage) this.unsubscribeLanguage();
+    }
 
     getDimensionMappingsJSON = () => {
         const mapping = this.state.dimensionMapping;
@@ -109,7 +119,7 @@ export class App extends Component {
     };
 
     getWorldName = () => {
-        return this.state.editedSettings["LevelName"] || (this.state.settings !== undefined && this.state.settings.settings["World Settings"].filter(a => a.name === "LevelName")[0].value) || "World";
+        return this.state.editedSettings["LevelName"] || (this.state.settings !== undefined && this.state.settings.settings["World Settings"].filter(a => a.name === "LevelName")[0].value) || t("select.title");
     };
 
     setScreen = (newScreen) => {
@@ -181,7 +191,7 @@ export class App extends Component {
             if (message.type === "error") {
                 if (!message.cancelled) {
                     console.info("Failed to get settings: " + message.error);
-                    self.showError("Failed to get world settings", message.error, message.errorId, message.stackTrace, false);
+                    self.showError(t("errors.failedSettingsTitle"), message.error, message.errorId, message.stackTrace, false);
                 }
             } else if (message.type === "response") {
                 self.setState({
@@ -204,7 +214,7 @@ export class App extends Component {
             if (message.type === "error") {
                 if (!message.cancelled) {
                     console.info("Failed to preview: " + message.error);
-                    self.showError("Failed to render preview", message.error, message.errorId, message.stackTrace, true); // Preview isn't required
+                    self.showError(t("errors.failedPreviewTitle"), message.error, message.errorId, message.stackTrace, true); // Preview isn't required
                 }
             } else if (message.type === "response") {
                 // Doesn't need to do anything, as progress.js will mark as complete :)

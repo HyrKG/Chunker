@@ -2,6 +2,7 @@ import React, {PureComponent} from "react";
 import {BiomeSelector} from "./biomeSelector";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
+import {t} from "../../../../../i18n";
 
 export class BiomeMapping extends PureComponent {
     render() {
@@ -9,7 +10,7 @@ export class BiomeMapping extends PureComponent {
             <div className="mappings-row">
                 <div className="mappings-entry">
                     <BiomeSelector
-                        placeholder={"Select input biome"}
+                        placeholder={t("biomes.selectInputBiome")}
                         identifier={this.props.value.old_identifier}
                         suggestions={this.props.inputBiomeSuggestions}
                         onChange={(identifier) => {
@@ -21,7 +22,7 @@ export class BiomeMapping extends PureComponent {
                 </div>
                 <div className="mappings-entry">
                     <BiomeSelector
-                        placeholder={"Select output biome"}
+                        placeholder={t("biomes.selectOutputBiome")}
                         identifier={this.props.value.new_identifier}
                         suggestions={this.props.outputBiomeSuggestions}
                         onChange={(identifier) => {
@@ -34,7 +35,7 @@ export class BiomeMapping extends PureComponent {
                 <div className="mappings-delete">
                     <button
                         className="icon-button"
-                        title="Delete entry"
+                        title={t("biomes.deleteEntry")}
                         disabled={!this.props.canDelete}
                         onClick={this.props.onDelete}
                     >

@@ -4,7 +4,11 @@ import "./css/main.css";
 import "./css/mediaqueries.css";
 import "./css/index.css";
 import api from "./api";
+import {getLanguage} from "./i18n";
 import {PageRouter} from "./components/router";
+
+// Ensure the document language matches the stored preference
+document.documentElement.lang = getLanguage();
 
 const root = ReactDOM.createRoot(document.getElementsByTagName("body")[0]);
 root.render(<PageRouter/>);

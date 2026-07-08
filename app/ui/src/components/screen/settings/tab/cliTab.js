@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {t} from "../../../../i18n";
 
 export class CLIExportTab extends Component {
     app = this.props.app;
@@ -32,27 +33,27 @@ export class CLIExportTab extends Component {
             <div>
                 <React.Fragment>
                     <div className="topbar">
-                        <h1>Export Settings for CLI</h1>
-                        <h2>This screen allows you to view your current settings as a CLI command.</h2>
+                        <h1>{t("cli.title")}</h1>
+                        <h2>{t("cli.subtitle")}</h2>
                     </div>
                     <div className="main_content settings dimensions api">
                         <div>
-                            <h4 style={{marginBlockEnd: "5px", marginBlockStart: "1px"}}>Example Usage</h4>
+                            <h4 style={{marginBlockEnd: "5px", marginBlockStart: "1px"}}>{t("cli.exampleUsage")}</h4>
                         </div>
                         <div className="white_box">
                             <label className="legend" htmlFor="name">
-                                <span className="tooltip">You can use this command with the CLI to replicate your current settings. You will need to make sure the paths are correct.</span>
-                                Command
+                                <span className="tooltip">{t("cli.commandTooltip")}</span>
+                                {t("cli.commandLabel")}
                             </label>
                             <input type="text" value={this.generateCommand()} readOnly={true}/>
                         </div>
                         <div>
                             <hr/>
-                            <h4 style={{marginBlockEnd: "5px"}}>CLI Parameters</h4>
+                            <h4 style={{marginBlockEnd: "5px"}}>{t("cli.cliParameters")}</h4>
                         </div>
                         <div className="white_box">
                             <label className="legend" htmlFor="name">
-                                <span className="tooltip">This is the output format for the world.</span>--outputFormat
+                                <span className="tooltip">{t("cli.outputFormatTooltip")}</span>--outputFormat
                             </label>
                             <input type="text"
                                    value={this.app.state.outputType.id}
@@ -61,45 +62,45 @@ export class CLIExportTab extends Component {
                         <div className="white_box">
                             <label className="legend" htmlFor="name">
                                     <span
-                                        className="tooltip">This is the settings from the Converter Settings tab.</span>--converterSettings
+                                        className="tooltip">{t("cli.converterSettingsTooltip")}</span>--converterSettings
                             </label>
                             <input type="text" value={JSON.stringify(this.app.state.converterSettings)}
                                    readOnly={true}/>
                         </div>
                         <div className="white_box">
                             <label className="legend" htmlFor="name">
-                                <span className="tooltip">This is the NBT settings which are written from the World Settings tab.</span>--worldSettings
+                                <span className="tooltip">{t("cli.worldSettingsTooltip")}</span>--worldSettings
                             </label>
                             <input type="text" value={JSON.stringify(this.app.state.editedSettings)}
                                    readOnly={true}/>
                         </div>
                         <div className="white_box">
                             <label className="legend" htmlFor="name">
-                                <span className="tooltip">These are the mappings on how it should map dimensions from the Dimensions tab.</span>--dimensionMappings
+                                <span className="tooltip">{t("cli.dimensionMappingsTooltip")}</span>--dimensionMappings
                             </label>
                             <input type="text" value={this.app.getDimensionMappingsJSON()} readOnly={true}/>
                         </div>
                         <div className="white_box">
                             <label className="legend" htmlFor="name">
-                                <span className="tooltip">These are the mappings on how it should prune dimensions from the Dimensions tab.</span>--pruning
+                                <span className="tooltip">{t("cli.pruningTooltip")}</span>--pruning
                             </label>
                             <input type="text" value={this.app.getPruningJSON()} readOnly={true}/>
                         </div>
                         <div className="white_box">
                             <label className="legend" htmlFor="name">
-                                <span className="tooltip">These are definitions for the custom dimensions to be used in the input/output.</span>--dimensionRegistry
+                                <span className="tooltip">{t("cli.dimensionRegistryTooltip")}</span>--dimensionRegistry
                             </label>
                             <input type="text" value={this.app.getCustomDimensionsJSON()} readOnly={true}/>
                         </div>
                         <div className="white_box">
                             <label className="legend" htmlFor="name">
-                                <span className="tooltip">These are the biome mappings which define how they should be changed from input to output.</span>--biomeMappings
+                                <span className="tooltip">{t("cli.biomeMappingsTooltip")}</span>--biomeMappings
                             </label>
                             <input type="text" value={this.app.getBiomeMappingsJSON()} readOnly={true}/>
                         </div>
                         <div className="white_box">
                             <label className="legend" htmlFor="name">
-                                <span className="tooltip">These are the block mappings generated from the Block Mapping tab.</span>--blockMappings
+                                <span className="tooltip">{t("cli.blockMappingsTooltip")}</span>--blockMappings
                             </label>
                             <input type="text" value={this.app.getBlockMappingsJSON()} readOnly={true}/>
                         </div>

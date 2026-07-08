@@ -2,7 +2,8 @@ import React, {Component} from "react";
 import {BlockMapping} from "./blocks/blockMapping";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
-import {getFormatName, getVersionName} from "../../mode/modeOption";
+import {getLocalizedFormatName, getVersionName} from "../../mode/modeOption";
+import {t} from "../../../../i18n";
 
 
 export class PaletteMappingsTab extends Component {
@@ -44,35 +45,33 @@ export class PaletteMappingsTab extends Component {
 
     render() {
         let inputVersion = getVersionName(this.app.state.inputType.id);
-        let inputFormat = getFormatName(this.app.state.inputType.id);
+        let inputFormat = getLocalizedFormatName(this.app.state.inputType.id);
         let inputJava = this.app.state.inputType.id.startsWith("JAVA_");
         let outputVersion = getVersionName(this.app.state.outputType.id);
-        let outputFormat = getFormatName(this.app.state.outputType.id);
+        let outputFormat = getLocalizedFormatName(this.app.state.outputType.id);
         let outputJava = this.app.state.outputType.id.startsWith("JAVA_");
         return (
             <div>
                 <div className="topbar">
-                    <h1>Block Mapping</h1>
-                    <h2><b>Block mappings allow you to turn one block into another.</b> Blocks which match the input
-                        will be turned into the output, states which are not set will also be converted where possible.
+                    <h1>{t("blocks.title")}</h1>
+                    <h2><b>{t("blocks.subtitleBefore")}</b>{t("blocks.subtitleAfter")}
                     </h2>
                 </div>
                 <div className="main_content settings dimensions">
                     {(this.app.state.inputBlockSuggestions.length === 0 || this.app.state.outputBlockSuggestions.length === 0) &&
                         <p>
                             <div
-                                align="center">Block Mapping is currently not available for the current world
-                                input/output format.
+                                align="center">{t("blocks.unavailable")}
                             </div>
                         </p>}
                     {this.app.state.inputBlockSuggestions.length > 0 && this.app.state.outputBlockSuggestions.length > 0 &&
                         <div>
                             <div className="mappings-row">
                                 <div className="mappings-entry" align="center">
-                                    <span>Input Block ({inputFormat} {inputVersion})</span>
+                                    <span>{t("blocks.inputBlock", {format: inputFormat, version: inputVersion})}</span>
                                 </div>
                                 <div className="mappings-entry" align="center">
-                                    <span>Output Block ({outputFormat} {outputVersion})</span>
+                                    <span>{t("blocks.outputBlock", {format: outputFormat, version: outputVersion})}</span>
                                 </div>
                                 <div className="mappings-delete">
                                     <button className="icon-button" style={{visibility: "hidden"}}>

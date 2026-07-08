@@ -4,6 +4,7 @@ import SeedRandom from "seedrandom";
 import {createFilter} from "react-select";
 import CreatableSelect from "react-select/creatable"
 import {optimizeSelect} from "./optimizedOption";
+import {t} from "../../../../../i18n";
 
 const DEFAULT_SCALE = chroma.scale("Spectral")
 
@@ -38,7 +39,7 @@ export class BlockSelector extends PureComponent {
         if (block.length === 0) {
             // Show blocks if none selected
             return [{
-                label: "Blocks",
+                label: t("blocks.blocksGroup"),
                 options: this.props.suggestions.map(a => this.getBlockOption(a.name))
             }];
         } else {
@@ -94,9 +95,9 @@ export class BlockSelector extends PureComponent {
 
         // Otherwise parse
         if (stateValue === true) {
-            return "True";
+            return t("blocks.trueLabel");
         } else if (stateValue === false) {
-            return "False";
+            return t("blocks.falseLabel");
         } else if (Number.isInteger(stateValue)) {
             return stateValue;
         } else {
@@ -222,16 +223,16 @@ export class BlockSelector extends PureComponent {
         // Handle full identifiers
         if (block.length === 0) {
             if (this.isImport(val)) {
-                return `Import "${val}"`;
+                return t("blocks.importValue", {val: val});
             } else {
-                return `Use "${val}" as a custom identifier`;
+                return t("blocks.useAsIdentifier", {val: val});
             }
         } else {
             // Handle single state
             if (block[0].value.startsWith("minecraft:")) {
-                return `Import "${val}"`;
+                return t("blocks.importValue", {val: val});
             } else {
-                return `Use "${val}" as a custom state`;
+                return t("blocks.useAsState", {val: val});
             }
         }
     }
@@ -309,7 +310,7 @@ export class BlockSelector extends PureComponent {
 
         return (<CreatableSelect
             filterOption={createFilter({ignoreAccents: false})}
-            placeholder={this.props.placeholder ?? "Select a block"}
+            placeholder={this.props.placeholder ?? t("blocks.selectBlock")}
             closeMenuOnSelect={options.length === 1 && values.length >= 1}
             isClearable
             isMulti
@@ -317,7 +318,7 @@ export class BlockSelector extends PureComponent {
             onChange={this.onChange}
             isDisabled={this.props.disabled}
             value={values}
-            noOptionsMessage={() => "No available options"}
+            noOptionsMessage={() => t("blocks.noOptions")}
             formatOptionLabel={this.formatLabel}
             styles={this.getStyles()}
             components={optimizeSelect.components}

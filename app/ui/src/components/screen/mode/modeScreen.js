@@ -4,6 +4,7 @@ import {SettingsScreen} from "../settings/settingsScreen";
 import {ModeOption} from "./modeOption";
 import {ProcessingScreen} from "../processing/processingScreen";
 import api from "../../../api";
+import {t} from "../../../i18n";
 
 export class ModeScreen extends BaseScreen {
     state = {
@@ -71,30 +72,30 @@ export class ModeScreen extends BaseScreen {
         return (
             <div className="maincol">
                 <div className="topbar">
-                    <h1>Export As</h1>
-                    <h2>What Minecraft version would you like to export this world to?</h2>
+                    <h1>{t("mode.title")}</h1>
+                    <h2>{t("mode.subtitle")}</h2>
                 </div>
                 {this.app.state.sessionData.version.warnings &&
                     <div className="main_content warning">
-                        <span>Warning: {this.app.state.sessionData.version.warnings}</span>
+                        <span>{t("common.warning", {message: this.app.state.sessionData.version.warnings})}</span>
                     </div>}
                 <div className="main_content export">
                     {writers.map(key => (
                         <ModeOption
                             key={key.id} selected={this.state.selected} update={this.updateSelected} type={key.id}
                             value={key} source={key.id === this.app.state.inputType.id}/>
-                    ))}
+                        ))}
                 </div>
                 <div className="bottombar">
-                    <button onClick={() => window.location.reload()} type="submit" className="button red">Restart
+                    <button onClick={() => window.location.reload()} type="submit" className="button red">{t("common.restart")}
                     </button>
                     <button
                         type="submit" className="button magenta" disabled={this.state.selected === undefined}
-                        onClick={() => this.convertWorld(true)}>Advanced Mode
+                        onClick={() => this.convertWorld(true)}>{t("mode.advancedMode")}
                     </button>
                     <button
                         type="submit" className="button green" disabled={this.state.selected === undefined}
-                        onClick={() => this.convertWorld(false)}>Convert
+                        onClick={() => this.convertWorld(false)}>{t("common.convert")}
                     </button>
                 </div>
             </div>

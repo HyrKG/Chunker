@@ -2,6 +2,7 @@ import React, {PureComponent} from "react";
 import {createFilter} from "react-select";
 import CreatableSelect from "react-select/creatable";
 import {optimizeSelect} from "../blocks/optimizedOption";
+import {t} from "../../../../../i18n";
 
 const STYLES = {
     container: (styles) => ({...styles, height: "100%"}), control: (styles) => ({...styles, height: "inherit"})
@@ -29,19 +30,19 @@ export class BiomeSelector extends PureComponent {
     };
 
     formatCreateLabel = (val) => {
-        return `Use "${val}" as a custom biome`;
+        return t("biomes.useAsBiome", {val: val});
     };
 
     render() {
         return (<CreatableSelect
                 filterOption={createFilter({ignoreAccents: false})}
-                placeholder={this.props.placeholder ?? "Select a biome"}
+                placeholder={this.props.placeholder ?? t("biomes.selectBiome")}
                 isClearable
                 options={this.getOptions()}
                 value={this.getValue()}
                 onChange={this.onChange}
                 isDisabled={this.props.disabled}
-                noOptionsMessage={() => "No available options"}
+                noOptionsMessage={() => t("biomes.noOptions")}
                 styles={STYLES}
                 components={optimizeSelect.components}
                 isValidNewOption={this.isValidNewOption}

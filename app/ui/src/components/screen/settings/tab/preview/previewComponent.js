@@ -7,6 +7,7 @@ import {ProgressComponent} from "../../../../progress";
 import "leaflet-mouse-position/src/L.Control.MousePosition.css";
 import "leaflet-fullscreen/dist/leaflet.fullscreen.css";
 import {getDimensionDisplayName} from "../dimensionPruningTab";
+import {t} from "../../../../../i18n";
 
 require("leaflet-mouse-position/src/L.Control.MousePosition"); // As it adds new controls, need to be required
 require("leaflet-fullscreen/dist/Leaflet.fullscreen"); // As it adds new controls, need to be required
@@ -193,7 +194,7 @@ export class Map extends Component {
 
             // Add a label for the region if there are multiple (or if it's named)
             if (pruningRegions.regions.length > 1 || region.name) {
-                rect.bindTooltip(region.name ?? ("Region " + (index + 1)), {
+                rect.bindTooltip(region.name ?? t("dimension.regionN", {n: index + 1}), {
                     direction: "center",
                     opacity: 0.8
                 });

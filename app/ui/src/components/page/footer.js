@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {t} from "../../i18n";
 
 export class Footer extends Component {
     render() {
@@ -7,9 +8,9 @@ export class Footer extends Component {
                     <div className="wrapper">
                         <ul>
                             <li><a href="https://github.com/HiveGamesOSS/Chunker" target="_blank"
-                                   rel="noopener noreferrer">GitHub</a></li>
+                                   rel="noopener noreferrer">{t("footer.github")}</a></li>
                             <li><a href="https://github.com/HiveGamesOSS/Chunker/network/dependencies" target="_blank"
-                                   rel="noopener noreferrer">Attributions</a></li>
+                                   rel="noopener noreferrer">{t("footer.attributions")}</a></li>
                         </ul>
                     </div>
                 </nav>
@@ -18,8 +19,8 @@ export class Footer extends Component {
                         <a href="https://hivegames.io" target="_blank" rel="noopener noreferrer"><img
                             src="images/hive.png"
                             alt="Hive Logo"/></a>
-                        <p>Proudly made by Hive Games under exclusive license to Minecraft<br/><span
-                            className="copy">&copy; Hive Games Limited {new Date().getFullYear()}</span>
+                        <p>{t("footer.madeBy")}<br/><span
+                            className="copy">{t("footer.copyright", {year: new Date().getFullYear()})}</span>
                         </p>
                         <span className="build">
                         {(window.chunker && window.chunker.version) || "unknown"}-{(window.chunker && window.chunker.gitVersion) || "unknown"}

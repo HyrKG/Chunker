@@ -3,6 +3,7 @@ import {BaseScreen} from "../baseScreen";
 import {ModeScreen} from "../mode/modeScreen";
 import api from "../../../api";
 import {Round2DP} from "../../progress";
+import {t} from "../../../i18n";
 
 let jokes = [
     "How does Steve stay in shape? He runs around the block.",
@@ -56,8 +57,8 @@ export class SelectWorldScreen extends BaseScreen {
         };
         this.folderInput.onchange = () => this.handleData(this.wrapFiles(self.folderInput.files));
 
-        // Pick random joke
-        this.joke = jokes[Math.floor(Math.random() * jokes.length)];
+        // Pick random joke (store the index so it can be localized at render time)
+        this.jokeIndex = Math.floor(Math.random() * jokes.length);
     }
 
     wrapFiles = (files) => {
@@ -88,7 +89,7 @@ export class SelectWorldScreen extends BaseScreen {
             if (level) {
                 self.setState({filePath: level, filePathDirectory: true, processing: false});
             } else {
-                this.app.showError("Invalid World", "The folder you selected did not contain a level.dat, please ensure you're using a Minecraft world folder.", null, undefined, true);
+                this.app.showError(t("errors.invalidWorldTitle"), t("errors.invalidWorldBody"), null, undefined, true);
                 this.setState({selected: false, detecting: false, processing: false});
             }
         } else {
@@ -217,7 +218,7 @@ export class SelectWorldScreen extends BaseScreen {
         // Check selected type (if it's a file)
         let name = this.state.filePath;
         if (!this.state.filePathDirectory && !name.endsWith(".zip") && !name.endsWith(".mcworld")) {
-            self.app.showError("Failed to load world", "Only .zip and .mcworld files can be used.", undefined, undefined, false);
+            self.app.showError(t("errors.failedLoadTitle"), t("errors.onlyZipBody"), undefined, undefined, false);
             return;
         }
 
@@ -253,9 +254,9 @@ export class SelectWorldScreen extends BaseScreen {
                     // Attempt to find the actual error
                     console.info("Could not make request :(", message);
                     if (message?.error) {
-                        self.app.showError("Failed to load world", message.error, message.errorId, message.stackTrace, false);
+                        self.app.showError(t("errors.failedLoadTitle"), message.error, message.errorId, message.stackTrace, false);
                     } else {
-                        self.app.showError("Failed to load world", "Something went wrong communicating with the backend process.", undefined, undefined, false, true);
+                        self.app.showError(t("errors.failedLoadTitle"), t("errors.failedBackendBody"), undefined, undefined, false, true);
                     }
                 }
             });
@@ -280,17 +281,17 @@ export class SelectWorldScreen extends BaseScreen {
                 callback();
             } else if (!ignoreError) {
                 if (errorCode === 529) {
-                    self.app.showError("Failed to connect to backend", "Your address is making too many requests, please wait then try again.", null, undefined, false, true);
+                    self.app.showError(t("errors.failedConnectTitle"), t("errors.tooManyRequestsBody"), null, undefined, false, true);
                 } else if (errorCode === 408) {
-                    self.app.showError("Failed to connect to backend", "Your connection timed out, please ensure you're on a stable connection.", null, undefined, false, true);
+                    self.app.showError(t("errors.failedConnectTitle"), t("errors.timeoutBody"), null, undefined, false, true);
                 } else if (errorCode === -100) {
-                    self.app.showError("Failed to connect to backend", "Unable to run chunker-cli backend, please try closing Chunker and opening it again.", null, undefined, false, true);
+                    self.app.showError(t("errors.failedConnectTitle"), t("errors.cliFailedBody"), null, undefined, false, true);
                 } else if (errorCode === 1) {
-                    self.app.showError("Failed to connect to backend", "The backend process was killed unexpectedly, please try closing Chunker and opening it again.", null, undefined, false, true);
+                    self.app.showError(t("errors.failedConnectTitle"), t("errors.backendKilledBody"), null, undefined, false, true);
                 } else if (errorCode === 12) {
-                    self.app.showError("Out of memory", "Your system ran out of memory while converting, please try again, use a smaller world or try a different machine.", null, undefined, false, true);
+                    self.app.showError(t("errors.outOfMemoryTitle"), t("errors.outOfMemoryBody"), null, undefined, false, true);
                 } else {
-                    self.app.showError("Failed to connect to backend", "Something went wrong communicating with the backend process.", null, undefined, false, true);
+                    self.app.showError(t("errors.failedConnectTitle"), t("errors.failedBackendBody"), null, undefined, false, true);
                 }
 
                 // Remove window listener
@@ -316,21 +317,23 @@ export class SelectWorldScreen extends BaseScreen {
     }
 
     render() {
+        let localizedJokes = t("select.jokes");
+        let joke = Array.isArray(localizedJokes) ? localizedJokes[this.jokeIndex] : localizedJokes;
         return (
             <div className={"maincol"}>
                 <div className="topbar">
-                    <h1>Select World</h1>
-                    <h2>Select your world folder or archive.</h2>
+                    <h1>{t("select.title")}</h1>
+                    <h2>{t("select.subtitle")}</h2>
                 </div>
                 {!this.state.selected && !this.state.dragging &&
                     <div className="main_content select_world">
                         <button onClick={this.showFolderBrowser} className="gray_box">
-                            Choose world folder
-                            <span>Select the world folder, we'll do the rest</span>
+                            {t("select.chooseFolder")}
+                            <span>{t("select.chooseFolderHint")}</span>
                         </button>
                         <button onClick={this.showFileBrowser} className="gray_box">
-                            Select archive
-                            <span>Supported types: .zip, .mcworld</span>
+                            {t("select.selectArchive")}
+                            <span>{t("select.selectArchiveHint")}</span>
                         </button>
                     </div>
                 }
@@ -339,24 +342,29 @@ export class SelectWorldScreen extends BaseScreen {
                         <button
                             className={"gray_box drag_box" + (this.state.draggingOverBox ? " dragged_over" : "")}
                             onDrop={this.onDrop} onDragOver={this.onDragBoxOver} onDragLeave={this.onDragBoxStop}>
-                            Drop your worlds here!
-                            <span>Supported types: .zip, .mcworld and directories</span>
+                            {t("select.dropHere")}
+                            <span>{t("select.dropHint")}</span>
                         </button>
                     </div>
                 }
                 {this.state.selected && this.state.processing &&
                     <div className="main_content main_content_progress">
-                        <h3>Preparing World: <span>{Round2DP(this.state.processingPercentage)}%</span></h3>
+                        <h3>{t("select.preparing", {percent: Round2DP(this.state.processingPercentage) + "%"})}</h3>
                         <div className="progress_bar">
                             <div className="progress_fill" style={{width: this.state.processingPercentage + "%"}}/>
                         </div>
-                        <p>Please wait while we prepare your world to be prepared. This won't take too long...</p>
+                        <p>{t("select.preparingWait")}</p>
                     </div>
                 }
                 {this.state.selected && !this.state.processing && !this.state.detecting &&
                     <div className="main_content main_content_progress">
-                        <h3>World Selected</h3>
-                        <p>Your world <span className="world_name">{this.state.selected}</span> is ready to be loaded.
+                        <h3>{t("select.worldSelected")}</h3>
+                        <p>
+                            <React.Fragment>
+                                {t("select.worldReady").split("{name}")[0]}
+                                <span className="world_name">{this.state.selected}</span>
+                                {t("select.worldReady").split("{name}")[1]}
+                            </React.Fragment>
                         </p>
                     </div>
                 }
@@ -364,26 +372,26 @@ export class SelectWorldScreen extends BaseScreen {
                     <div className="main_content main_content_progress">
 
                         {!this.state.animated &&
-                            <h3>Preparing World: <span>{Round2DP(this.state.progress)}%</span></h3>}
-                        {this.state.animated && <h3>Detecting world version</h3>}
+                            <h3>{t("select.preparing", {percent: Round2DP(this.state.progress) + "%"})}</h3>}
+                        {this.state.animated && <h3>{t("select.detectingVersion")}</h3>}
                         <div className={this.state.animated ? "progress_bar animated" : "progress_bar"}>
                             {!this.state.animated &&
                                 <div className="progress_fill" style={{width: this.state.progress + "%"}}/>}
                         </div>
-                        {!this.state.animated && <p>Please wait while we prepare your world.</p>}
+                        {!this.state.animated && <p>{t("select.prepareWait")}</p>}
                         {this.state.animated &&
-                            <p>Please wait while we work out what version of Minecraft this world is.</p>}
-                        <p>{this.joke}</p>
+                            <p>{t("select.detectWait")}</p>}
+                        <p>{joke}</p>
                     </div>
                 }
                 <div className="bottombar">
                     {this.state.selected && !this.state.processing && !this.state.detecting &&
-                        <button className="button red" onClick={this.cancel}>Cancel</button>
+                        <button className="button red" onClick={this.cancel}>{t("common.cancel")}</button>
                     }
                     <button
                         className="button green"
                         disabled={this.state.detecting || !this.state.selected || this.state.processing}
-                        onClick={this.startSession}>Start
+                        onClick={this.startSession}>{t("common.start")}
                     </button>
                 </div>
             </div>

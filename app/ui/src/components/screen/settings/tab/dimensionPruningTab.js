@@ -1,12 +1,13 @@
 import React, {Component} from "react";
 import {ProgressComponent} from "../../../progress";
 import {SettingsInput} from "./world_settings/settingsInput";
+import {t} from "../../../../i18n";
 
 export function getDimensionDisplayName(identifier) {
     switch (identifier) {
-        case "minecraft:overworld": return "Overworld";
-        case "minecraft:the_nether": return "The Nether";
-        case "minecraft:the_end": return "The End";
+        case "minecraft:overworld": return t("dimension.overworld");
+        case "minecraft:the_nether": return t("dimension.theNether");
+        case "minecraft:the_end": return t("dimension.theEnd");
         default: {
             const parts = identifier.split(":");
             return parts.map(p => p.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase())).join(": ");
@@ -140,7 +141,7 @@ export class DimensionPruningTab extends Component {
                 // Update settings
                 if (name === "name") {
                     // Check if name is equal to the default
-                    if (value !== ("Region " + (setting.region + 1))) {
+                    if (value !== t("dimension.regionN", {n: setting.region + 1})) {
                         pruningSettingsClone[tab].regions[setting.region][name] = value;
                     } else {
                         // Delete the name
@@ -166,13 +167,13 @@ export class DimensionPruningTab extends Component {
     toDimensionOption = (input, output) => {
         let dimensions = this.app.state.settings?.dimensions ?? [];
         return {
-            "name": "Dimension",
-            "description": "The dimension to change " + getDimensionDisplayName(input) + " to.",
+            "name": t("dimension.dimensionOption.name"),
+            "description": t("dimension.dimensionOption.description", {name: getDimensionDisplayName(input)}),
             "type": "Radio",
             "value": output || "NONE",
             "options": [
                 {
-                    "name": "None",
+                    "name": t("dimension.dimensionOption.none"),
                     "color": "blue",
                     "value": "NONE"
                 },
@@ -193,23 +194,23 @@ export class DimensionPruningTab extends Component {
         let options = [
             {
                 "name": "Pruning",
-                "display": "Chunk Pruning",
-                "description": "Whether chunk pruning should include or exclude regions, off indicates no pruning.",
+                "display": t("dimension.chunkPruning.display"),
+                "description": t("dimension.chunkPruning.description"),
                 "type": "Radio",
                 "value": pruningSetting,
                 "options": [
                     {
-                        "name": "Off",
+                        "name": t("dimension.chunkPruning.off"),
                         "color": "blue",
                         "value": "OFF"
                     },
                     {
-                        "name": "Include",
+                        "name": t("dimension.chunkPruning.include"),
                         "color": "green",
                         "value": "INCLUDE"
                     },
                     {
-                        "name": "Exclude",
+                        "name": t("dimension.chunkPruning.exclude"),
                         "color": "red",
                         "value": "EXCLUDE"
                     }
@@ -220,9 +221,9 @@ export class DimensionPruningTab extends Component {
         if (this.app.state.pruningSettings[dimension] && this.app.state.pruningSettings[dimension].regions) {
             this.app.state.pruningSettings[dimension].regions.forEach((region, index) => {
                 options = options.concat([{
-                    "display": ("Region " + (index + 1)),
+                    "display": t("dimension.removeRegion.display", {n: index + 1}),
                     "name": "removeRegion",
-                    "description": "Remove this region",
+                    "description": t("dimension.removeRegion.description"),
                     "header": true,
                     "type": "Button",
                     "value": "X",
@@ -231,41 +232,41 @@ export class DimensionPruningTab extends Component {
                 // Add settings for dimension pruning
                 options = options.concat([
                     {
-                        "display": "Region Name",
+                        "display": t("dimension.regionName.display"),
                         "name": "name",
-                        "description": "The internal name used for this region, useful for if you're exporting your Chunker settings.",
+                        "description": t("dimension.regionName.description"),
                         "type": "String",
-                        "value": region.name ?? ("Region " + (index + 1)),
+                        "value": region.name ?? t("dimension.regionN", {n: index + 1}),
                         "region": index
                     },
                     {
-                        "display": "Start Chunk X",
+                        "display": t("dimension.startChunkX.display"),
                         "name": "minChunkX",
-                        "description": "The X co-ordinate of the chunk, you can get this by dividing X by 16",
+                        "description": t("dimension.startChunkX.description"),
                         "type": "Int32",
                         "value": region.minChunkX,
                         "region": index
                     },
                     {
-                        "display": "Start Chunk Z",
+                        "display": t("dimension.startChunkZ.display"),
                         "name": "minChunkZ",
-                        "description": "The Z co-ordinate of the chunk, you can get this by dividing Z by 16",
+                        "description": t("dimension.startChunkZ.description"),
                         "type": "Int32",
                         "value": region.minChunkZ,
                         "region": index
                     },
                     {
-                        "display": "End Chunk X",
+                        "display": t("dimension.endChunkX.display"),
                         "name": "maxChunkX",
-                        "description": "The X co-ordinate of the chunk, you can get this by dividing X by 16",
+                        "description": t("dimension.endChunkX.description"),
                         "type": "Int32",
                         "value": region.maxChunkX,
                         "region": index
                     },
                     {
-                        "display": "End Chunk Z",
+                        "display": t("dimension.endChunkZ.display"),
                         "name": "maxChunkZ",
-                        "description": "The Z co-ordinate of the chunk, you can get this by dividing Z by 16",
+                        "description": t("dimension.endChunkZ.description"),
                         "type": "Int32",
                         "value": region.maxChunkZ,
                         "region": index
@@ -277,11 +278,11 @@ export class DimensionPruningTab extends Component {
             if (enabled) {
                 options = options.concat([
                     {
-                        "display": "Add Region",
+                        "display": t("dimension.addRegion.display"),
                         "borderless": true,
                         "name": "addRegion",
-                        "description": "Add another pruning region",
-                        "value": "Add Region",
+                        "description": t("dimension.addRegion.description"),
+                        "value": t("dimension.addRegion.display"),
                         "type": "Button"
                     }
                 ]);
@@ -302,9 +303,8 @@ export class DimensionPruningTab extends Component {
                 {(this.app.settingsProgress.isComplete() &&
                     <React.Fragment>
                         <div className="topbar">
-                            <h1>Dimensions/Pruning</h1>
-                            <h2>You can change one dimension to another, you can also enter co-ordinates of chunks you
-                                want to include in the conversion.</h2>
+                            <h1>{t("dimension.title")}</h1>
+                            <h2>{t("dimension.subtitle")}</h2>
                             <ul className="tabs">
                                 {this.app.state.settings.dimensions.map(name => (
                                     <li key={name}>
@@ -316,7 +316,7 @@ export class DimensionPruningTab extends Component {
                         </div>
                         <div className="main_content settings dimensions" id={tab}>
                             <SettingsInput base={this.toDimensionOption(tab, this.app.state.dimensionMapping[tab])}
-                                           name={"Output Dimension"}
+                                           name={t("dimension.outputDimension")}
                                            onChange={(name, value) => this.updateSetting(tab, name, value)}/>
                             {pruningSettings.map(setting => (
                                 <SettingsInput key={setting.name + ":" + setting.region} base={setting}

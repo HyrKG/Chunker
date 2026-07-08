@@ -2,6 +2,21 @@ import React, {Component} from "react";
 import {ProgressComponent} from "../../../progress";
 import {SettingsInput} from "./world_settings/settingsInput";
 import mergeSettings from "./world_settings/settings";
+import {t} from "../../../../i18n";
+
+// Translatable category names shown as sub-tabs
+const CATEGORY_KEYS = {
+    "World Settings": "settings.worldSettings",
+    "Game Rules": "settingsTab.gameRules",
+    "Restrictions": "settingsTab.restrictions",
+    "Weather": "settingsTab.weather",
+    "Misc": "settingsTab.misc"
+};
+
+function getCategoryLabel(category) {
+    let key = CATEGORY_KEYS[category];
+    return key ? t(key, {}, category) : category;
+}
 
 export class WorldSettingsTab extends Component {
     app = this.props.app;
@@ -42,6 +57,20 @@ export class WorldSettingsTab extends Component {
                     }
                 }
 
+                // Localize display / description / option names
+                let category = this.app.state.worldSettingsTab;
+                let settingKey = "worldSettings." + category + "." + item.name;
+                let localizedDisplay = t(settingKey + ".display", {}, undefined);
+                if (localizedDisplay !== undefined) item.display = localizedDisplay;
+                let localizedDesc = t(settingKey + ".description", {}, undefined);
+                if (localizedDesc !== undefined) item.description = localizedDesc;
+                if (item.options) {
+                    item.options = item.options.map(opt => {
+                        let optLabel = t(settingKey + ".options." + opt.value, {}, undefined);
+                        return optLabel !== undefined ? Object.assign({}, opt, {name: optLabel}) : opt;
+                    });
+                }
+
                 // Add to tab
                 if ((java && item.java) || (!java && item.bedrock)) {
                     settings.push(item);
@@ -56,6 +85,7 @@ export class WorldSettingsTab extends Component {
                 // Special case as GeneratorType varies on input/output
                 if (item.name === "GeneratorType") {
                     item.type = "Radio";
+                    let genKey = "worldSettings." + this.app.state.worldSettingsTab + ".GeneratorType.options.";
 
                     // If the world isn't being edited or it wasn't detected as custom
                     if (this.app.state.outputType.id !== this.app.state.inputType.id || oldValue !== "CUSTOM") {
@@ -63,16 +93,16 @@ export class WorldSettingsTab extends Component {
                             item.value = "VOID";
                         }
                         item.options = [
-                            {name: "NORMAL", color: "blue", value: "NORMAL"},
-                            {name: "FLAT", color: "green", value: "FLAT"},
-                            {name: "VOID", color: "red", value: "VOID"},
+                            {name: t(genKey + "NORMAL", {}, "NORMAL"), color: "blue", value: "NORMAL"},
+                            {name: t(genKey + "FLAT", {}, "FLAT"), color: "green", value: "FLAT"},
+                            {name: t(genKey + "VOID", {}, "VOID"), color: "red", value: "VOID"},
                         ];
                     } else {
                         item.options = [
-                            {name: "NORMAL", color: "blue", value: "NORMAL"},
-                            {name: "FLAT", color: "green", value: "FLAT"},
-                            {name: "CUSTOM", color: "yellow", value: "CUSTOM"},
-                            {name: "VOID", color: "red", value: "VOID"},
+                            {name: t(genKey + "NORMAL", {}, "NORMAL"), color: "blue", value: "NORMAL"},
+                            {name: t(genKey + "FLAT", {}, "FLAT"), color: "green", value: "FLAT"},
+                            {name: t(genKey + "CUSTOM", {}, "CUSTOM"), color: "yellow", value: "CUSTOM"},
+                            {name: t(genKey + "VOID", {}, "VOID"), color: "red", value: "VOID"},
                         ];
                     }
                 }
@@ -91,20 +121,20 @@ export class WorldSettingsTab extends Component {
                 {(this.app.settingsProgress.isComplete() &&
                     <React.Fragment>
                         <div className="topbar">
-                            <h1>World Settings</h1>
-                            <h2>Your in-game world settings. Hover over field names for a detailed description.</h2>
+                            <h1>{t("worldSettingsTab.title")}</h1>
+                            <h2>{t("worldSettingsTab.subtitle")}</h2>
                             <ul className="tabs">
                                 {categories.map(category => (
                                     <li key={category}>
                                         <button className={this.app.state.worldSettingsTab === category ? "active" : ""}
-                                                onClick={(e) => this.setTab(category, e)}>{category}</button>
+                                                onClick={(e) => this.setTab(category, e)}>{getCategoryLabel(category)}</button>
                                     </li>
                                 ))}
                             </ul>
                         </div>
                         {settings.length === 0 &&
                             <div className="main_content settings">
-                                <h2>There are no settings in this category</h2>
+                                <h2>{t("worldSettingsTab.emptyCategory")}</h2>
                             </div>
                         }
                         {settings.length > 0 &&
