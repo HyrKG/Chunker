@@ -8,6 +8,96 @@ import {copyRecursive, countFiles, zipRecursive} from "./util.js";
 import {download} from "electron-dl";
 import log from "electron-log";
 
+/**
+ * Parse a major Java version from a JDK directory name (e.g. "jdk-21", "jdk-17.0.1",
+ * "jdk1.8.0_411", "jre-1.8"). Returns the major version (e.g. 21, 17, 8) or 0 if
+ * it cannot be parsed.
+ */
+function parseJavaVersionFromName(name) {
+    // Strip non-digits except dots, then look for the version. Handles "jdk-21",
+    // "jdk-17.0.1", "jdk1.8.0", "jre-1.8".
+    let match = name.match(/(\d+)(?:\.(\d+))?/);
+    if (!match) return 0;
+    let major = parseInt(match[1], 10);
+    // Old-style naming (1.8) -> major is the second segment
+    if (major === 1 && match[2]) {
+        major = parseInt(match[2], 10);
+    }
+    return major;
+}
+
+/**
+ * Find a java executable suitable for running the CLI (requires Java 17+).
+ *
+ * Resolution order:
+ *  1. JAVA_HOME (if set and its bin/java exists)
+ *  2. Common JDK install directories on the current platform, preferring the
+ *     highest available version >= 17
+ *  3. Fallback to "java" on the PATH
+ *
+ * This is primarily for development: in packaged builds the CLI is run via the
+ * bundled native launcher, so this function is not used.
+ */
+function findJavaExecutable() {
+    const exeSuffix = process.platform === "win32" ? ".exe" : "";
+
+    // 1. JAVA_HOME
+    if (process.env.JAVA_HOME) {
+        let candidate = path.join(process.env.JAVA_HOME, "bin", "java" + exeSuffix);
+        if (fs.existsSync(candidate)) {
+            return candidate;
+        }
+    }
+
+    // 2. Scan common JDK install locations for a >= 17 JDK
+    let searchDirs = [];
+    if (process.platform === "win32") {
+        searchDirs.push("C:\\Program Files\\Java");
+        searchDirs.push("C:\\Program Files\\Eclipse Adoptium");
+        searchDirs.push("C:\\Program Files\\Microsoft");
+        searchDirs.push("C:\\Program Files\\Amazon Corretto");
+        searchDirs.push("C:\\Program Files\\Zulu");
+    } else if (process.platform === "darwin") {
+        searchDirs.push("/Library/Java/JavaVirtualMachines");
+    } else {
+        searchDirs.push("/usr/lib/jvm");
+        searchDirs.push("/usr/java");
+    }
+
+    let best = null;
+    let bestVersion = 0;
+    for (let dir of searchDirs) {
+        let entries;
+        try {
+            entries = fs.readdirSync(dir, {withFileTypes: true});
+        } catch (e) {
+            continue; // Directory doesn't exist or isn't readable
+        }
+        for (let entry of entries) {
+            if (!entry.isDirectory()) continue;
+            let version = parseJavaVersionFromName(entry.name);
+            if (version < 17) continue;
+
+            // On macOS the java binary lives under Contents/Home/bin
+            let binDir;
+            if (process.platform === "darwin") {
+                binDir = path.join(dir, entry.name, "Contents", "Home", "bin");
+            } else {
+                binDir = path.join(dir, entry.name, "bin");
+            }
+            let candidate = path.join(binDir, "java" + exeSuffix);
+            if (fs.existsSync(candidate) && version > bestVersion) {
+                best = candidate;
+                bestVersion = version;
+            }
+        }
+    }
+    if (best) return best;
+
+    // 3. Fallback to PATH
+    return "java";
+}
+
 export class Session {
     _sessions = null;
     _sessionID = null;
@@ -99,7 +189,10 @@ export class Session {
 
         // Execute as process or a jar
         if (executable.endsWith(".jar")) {
-            this._process = spawn("java", ["-jar", executable, "messenger"], {
+            // Locate a Java 17+ runtime (the CLI requires it). In dev this scans
+            // common JDK install locations if java on the PATH is too old.
+            let javaBinary = findJavaExecutable();
+            this._process = spawn(javaBinary, ["-jar", executable, "messenger"], {
                 env: {
                     ...process.env,
                     _JAVA_OPTIONS: javaOptions
