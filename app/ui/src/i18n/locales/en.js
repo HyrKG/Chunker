@@ -136,9 +136,10 @@ export const en = {
             display: "Add Region",
             description: "Add another pruning region",
         },
-        // Dimension option (the "change X to Y" radio)
+        // Dimension option (the "change X to Y" radio).
+        // Note: the radio's control-flow identifier is the hardcoded "Dimension"
+        // in toDimensionOption(); only the description/none labels are localized here.
         dimensionOption: {
-            name: "Dimension",
             description: "The dimension to change {name} to.",
             none: "None",
         },

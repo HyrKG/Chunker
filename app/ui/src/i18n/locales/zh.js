@@ -134,8 +134,10 @@ export const zh = {
             display: "添加区域",
             description: "添加另一个修剪区域",
         },
+        // 维度选项（"将 X 更改为 Y" 单选）。
+        // 注意：单选项的控制流标识符是 toDimensionOption() 中硬编码的 "Dimension"，
+        // 此处仅本地化 description / none 标签。
         dimensionOption: {
-            name: "维度",
             description: "将 {name} 更改为的维度。",
             none: "无",
         },

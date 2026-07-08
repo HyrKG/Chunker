@@ -167,7 +167,10 @@ export class DimensionPruningTab extends Component {
     toDimensionOption = (input, output) => {
         let dimensions = this.app.state.settings?.dimensions ?? [];
         return {
-            "name": t("dimension.dimensionOption.name"),
+            // "name" is an internal control-flow identifier consumed by
+            // updateSetting (name === "Dimension"); it must NOT be localized.
+            // The visible label is passed via the `name` prop in render().
+            "name": "Dimension",
             "description": t("dimension.dimensionOption.description", {name: getDimensionDisplayName(input)}),
             "type": "Radio",
             "value": output || "NONE",
