@@ -82,7 +82,7 @@
       "old_identifier": "minecraft:bamboo_block",
       "new_identifier": "minecraft:log",
       "new_state_values": {
-        "data": 14
+        "data": 2
       }
     },
     {
@@ -504,7 +504,7 @@
       "old_identifier": "minecraft:cherry_wood",
       "new_identifier": "minecraft:log",
       "new_state_values": {
-        "data": 12
+        "data": 0
       }
     },
     {
@@ -664,7 +664,7 @@
       "old_identifier": "minecraft:crimson_hyphae",
       "new_identifier": "minecraft:log2",
       "new_state_values": {
-        "data": 17
+        "data": 1
       }
     },
     {
@@ -708,7 +708,7 @@
       "old_identifier": "minecraft:crimson_stem",
       "new_identifier": "minecraft:log2",
       "new_state_values": {
-        "data": 5
+        "data": 1
       }
     },
     {
@@ -811,143 +811,83 @@
     },
     {
       "old_identifier": "minecraft:dead_brain_coral",
-      "new_identifier": "minecraft:sponge",
-      "new_state_values": {
-        "data": 1
-      }
+      "new_identifier": "minecraft:cobblestone"
     },
     {
       "old_identifier": "minecraft:dead_brain_coral_block",
-      "new_identifier": "minecraft:sponge",
-      "new_state_values": {
-        "data": 1
-      }
+      "new_identifier": "minecraft:cobblestone"
     },
     {
       "old_identifier": "minecraft:dead_brain_coral_fan",
-      "new_identifier": "minecraft:sponge",
-      "new_state_values": {
-        "data": 1
-      }
+      "new_identifier": "minecraft:cobblestone"
     },
     {
       "old_identifier": "minecraft:dead_brain_coral_wall_fan",
-      "new_identifier": "minecraft:sponge",
-      "new_state_values": {
-        "data": 1
-      }
+      "new_identifier": "minecraft:cobblestone"
     },
     {
       "old_identifier": "minecraft:dead_bubble_coral",
-      "new_identifier": "minecraft:sponge",
-      "new_state_values": {
-        "data": 1
-      }
+      "new_identifier": "minecraft:cobblestone"
     },
     {
       "old_identifier": "minecraft:dead_bubble_coral_block",
-      "new_identifier": "minecraft:sponge",
-      "new_state_values": {
-        "data": 1
-      }
+      "new_identifier": "minecraft:cobblestone"
     },
     {
       "old_identifier": "minecraft:dead_bubble_coral_fan",
-      "new_identifier": "minecraft:sponge",
-      "new_state_values": {
-        "data": 1
-      }
+      "new_identifier": "minecraft:cobblestone"
     },
     {
       "old_identifier": "minecraft:dead_bubble_coral_wall_fan",
-      "new_identifier": "minecraft:sponge",
-      "new_state_values": {
-        "data": 1
-      }
+      "new_identifier": "minecraft:cobblestone"
     },
     {
       "old_identifier": "minecraft:dead_fire_coral",
-      "new_identifier": "minecraft:sponge",
-      "new_state_values": {
-        "data": 1
-      }
+      "new_identifier": "minecraft:cobblestone"
     },
     {
       "old_identifier": "minecraft:dead_fire_coral_block",
-      "new_identifier": "minecraft:sponge",
-      "new_state_values": {
-        "data": 1
-      }
+      "new_identifier": "minecraft:cobblestone"
     },
     {
       "old_identifier": "minecraft:dead_fire_coral_fan",
-      "new_identifier": "minecraft:sponge",
-      "new_state_values": {
-        "data": 1
-      }
+      "new_identifier": "minecraft:cobblestone"
     },
     {
       "old_identifier": "minecraft:dead_fire_coral_wall_fan",
-      "new_identifier": "minecraft:sponge",
-      "new_state_values": {
-        "data": 1
-      }
+      "new_identifier": "minecraft:cobblestone"
     },
     {
       "old_identifier": "minecraft:dead_horn_coral",
-      "new_identifier": "minecraft:sponge",
-      "new_state_values": {
-        "data": 1
-      }
+      "new_identifier": "minecraft:cobblestone"
     },
     {
       "old_identifier": "minecraft:dead_horn_coral_block",
-      "new_identifier": "minecraft:sponge",
-      "new_state_values": {
-        "data": 1
-      }
+      "new_identifier": "minecraft:cobblestone"
     },
     {
       "old_identifier": "minecraft:dead_horn_coral_fan",
-      "new_identifier": "minecraft:sponge",
-      "new_state_values": {
-        "data": 1
-      }
+      "new_identifier": "minecraft:cobblestone"
     },
     {
       "old_identifier": "minecraft:dead_horn_coral_wall_fan",
-      "new_identifier": "minecraft:sponge",
-      "new_state_values": {
-        "data": 1
-      }
+      "new_identifier": "minecraft:cobblestone"
     },
     {
       "old_identifier": "minecraft:dead_tube_coral",
-      "new_identifier": "minecraft:sponge",
-      "new_state_values": {
-        "data": 1
-      }
+      "new_identifier": "minecraft:cobblestone"
     },
     {
       "old_identifier": "minecraft:dead_tube_coral_block",
-      "new_identifier": "minecraft:sponge",
-      "new_state_values": {
-        "data": 1
-      }
+      "new_identifier": "minecraft:cobblestone"
     },
     {
       "old_identifier": "minecraft:dead_tube_coral_fan",
-      "new_identifier": "minecraft:sponge",
-      "new_state_values": {
-        "data": 1
-      }
+      "new_identifier": "minecraft:cobblestone"
     },
     {
       "old_identifier": "minecraft:dead_tube_coral_wall_fan",
-      "new_identifier": "minecraft:sponge",
-      "new_state_values": {
-        "data": 1
-      }
+      "new_identifier": "minecraft:cobblestone"
     },
     {
       "old_identifier": "minecraft:decorated_pot",
@@ -1119,7 +1059,7 @@
       "old_identifier": "minecraft:exposed_cut_copper_slab",
       "new_identifier": "minecraft:stone_slab",
       "new_state_values": {
-        "data": 4
+        "data": 5
       }
     },
     {
@@ -1477,7 +1417,7 @@
       "old_identifier": "minecraft:mangrove_log",
       "new_identifier": "minecraft:log2",
       "new_state_values": {
-        "data": 5
+        "data": 1
       }
     },
     {
@@ -1536,7 +1476,7 @@
       "old_identifier": "minecraft:mangrove_wood",
       "new_identifier": "minecraft:log2",
       "new_state_values": {
-        "data": 17
+        "data": 1
       }
     },
     {
@@ -1548,9 +1488,9 @@
     },
     {
       "old_identifier": "minecraft:moss_block",
-      "new_identifier": "minecraft:wool",
+      "new_identifier": "minecraft:leaves",
       "new_state_values": {
-        "data": 13
+        "data": 0
       }
     },
     {
@@ -1562,17 +1502,14 @@
     },
     {
       "old_identifier": "minecraft:mossy_cobblestone_slab",
-      "new_identifier": "minecraft:wool",
+      "new_identifier": "minecraft:stone_slab",
       "new_state_values": {
-        "data": 13
+        "data": 5
       }
     },
     {
       "old_identifier": "minecraft:mossy_cobblestone_stairs",
-      "new_identifier": "minecraft:wool",
-      "new_state_values": {
-        "data": 13
-      }
+      "new_identifier": "minecraft:stone_brick_stairs"
     },
     {
       "old_identifier": "minecraft:mossy_stone_brick_slab",
@@ -1615,6 +1552,13 @@
     {
       "old_identifier": "minecraft:muddy_mangrove_roots",
       "new_identifier": "minecraft:dirt"
+    },
+    {
+      "old_identifier": "minecraft:mushroom_stem",
+      "new_identifier": "minecraft:planks",
+      "new_state_values": {
+        "data": 2
+      }
     },
     {
       "old_identifier": "minecraft:nether_brick_wall",
@@ -1714,7 +1658,7 @@
       "old_identifier": "minecraft:oxidized_cut_copper_slab",
       "new_identifier": "minecraft:stone_slab",
       "new_state_values": {
-        "data": 4
+        "data": 5
       }
     },
     {
@@ -1829,7 +1773,7 @@
       "old_identifier": "minecraft:pale_oak_wood",
       "new_identifier": "minecraft:log",
       "new_state_values": {
-        "data": 12
+        "data": 0
       }
     },
     {
@@ -2341,7 +2285,10 @@
     },
     {
       "old_identifier": "minecraft:sea_pickle",
-      "new_identifier": "minecraft:stone"
+      "new_identifier": "minecraft:tallgrass",
+      "new_state_values": {
+        "data": 1
+      }
     },
     {
       "old_identifier": "minecraft:seagrass",
@@ -2500,95 +2447,164 @@
     },
     {
       "old_identifier": "minecraft:stripped_acacia_log",
-      "new_identifier": "minecraft:stone"
+      "new_identifier": "minecraft:log2",
+      "new_state_values": {
+        "data": 0
+      }
     },
     {
       "old_identifier": "minecraft:stripped_acacia_wood",
-      "new_identifier": "minecraft:stone"
+      "new_identifier": "minecraft:log2",
+      "new_state_values": {
+        "data": 0
+      }
     },
     {
       "old_identifier": "minecraft:stripped_bamboo_block",
-      "new_identifier": "minecraft:stone"
+      "new_identifier": "minecraft:log",
+      "new_state_values": {
+        "data": 2
+      }
     },
     {
       "old_identifier": "minecraft:stripped_birch_log",
-      "new_identifier": "minecraft:stone"
+      "new_identifier": "minecraft:log",
+      "new_state_values": {
+        "data": 2
+      }
     },
     {
       "old_identifier": "minecraft:stripped_birch_wood",
-      "new_identifier": "minecraft:stone"
+      "new_identifier": "minecraft:sandstone",
+      "new_state_values": {
+        "data": 0
+      }
     },
     {
       "old_identifier": "minecraft:stripped_cherry_log",
-      "new_identifier": "minecraft:stone"
+      "new_identifier": "minecraft:log",
+      "new_state_values": {
+        "data": 0
+      }
     },
     {
       "old_identifier": "minecraft:stripped_cherry_wood",
-      "new_identifier": "minecraft:stone"
+      "new_identifier": "minecraft:log",
+      "new_state_values": {
+        "data": 0
+      }
     },
     {
       "old_identifier": "minecraft:stripped_crimson_hyphae",
-      "new_identifier": "minecraft:stone"
+      "new_identifier": "minecraft:log2",
+      "new_state_values": {
+        "data": 1
+      }
     },
     {
       "old_identifier": "minecraft:stripped_crimson_stem",
-      "new_identifier": "minecraft:stone"
+      "new_identifier": "minecraft:log2",
+      "new_state_values": {
+        "data": 1
+      }
     },
     {
       "old_identifier": "minecraft:stripped_dark_oak_log",
-      "new_identifier": "minecraft:stone"
+      "new_identifier": "minecraft:log2",
+      "new_state_values": {
+        "data": 1
+      }
     },
     {
       "old_identifier": "minecraft:stripped_dark_oak_wood",
-      "new_identifier": "minecraft:stone"
+      "new_identifier": "minecraft:log2",
+      "new_state_values": {
+        "data": 1
+      }
     },
     {
       "old_identifier": "minecraft:stripped_jungle_log",
-      "new_identifier": "minecraft:stone"
+      "new_identifier": "minecraft:log",
+      "new_state_values": {
+        "data": 3
+      }
     },
     {
       "old_identifier": "minecraft:stripped_jungle_wood",
-      "new_identifier": "minecraft:stone"
+      "new_identifier": "minecraft:log",
+      "new_state_values": {
+        "data": 3
+      }
     },
     {
       "old_identifier": "minecraft:stripped_mangrove_log",
-      "new_identifier": "minecraft:stone"
+      "new_identifier": "minecraft:log2",
+      "new_state_values": {
+        "data": 1
+      }
     },
     {
       "old_identifier": "minecraft:stripped_mangrove_wood",
-      "new_identifier": "minecraft:stone"
+      "new_identifier": "minecraft:log2",
+      "new_state_values": {
+        "data": 1
+      }
     },
     {
       "old_identifier": "minecraft:stripped_oak_log",
-      "new_identifier": "minecraft:stone"
+      "new_identifier": "minecraft:log",
+      "new_state_values": {
+        "data": 0
+      }
     },
     {
       "old_identifier": "minecraft:stripped_oak_wood",
-      "new_identifier": "minecraft:stone"
+      "new_identifier": "minecraft:log",
+      "new_state_values": {
+        "data": 0
+      }
     },
     {
       "old_identifier": "minecraft:stripped_pale_oak_log",
-      "new_identifier": "minecraft:stone"
+      "new_identifier": "minecraft:log",
+      "new_state_values": {
+        "data": 0
+      }
     },
     {
       "old_identifier": "minecraft:stripped_pale_oak_wood",
-      "new_identifier": "minecraft:stone"
+      "new_identifier": "minecraft:log",
+      "new_state_values": {
+        "data": 0
+      }
     },
     {
       "old_identifier": "minecraft:stripped_spruce_log",
-      "new_identifier": "minecraft:stone"
+      "new_identifier": "minecraft:log",
+      "new_state_values": {
+        "data": 1
+      }
     },
     {
       "old_identifier": "minecraft:stripped_spruce_wood",
-      "new_identifier": "minecraft:stone"
+      "new_identifier": "minecraft:log",
+      "new_state_values": {
+        "data": 1
+      }
     },
     {
       "old_identifier": "minecraft:stripped_warped_hyphae",
-      "new_identifier": "minecraft:stone"
+      "new_identifier": "minecraft:log2",
+      "new_state_values": {
+        "data": 1
+      }
     },
     {
       "old_identifier": "minecraft:stripped_warped_stem",
-      "new_identifier": "minecraft:stone"
+      "new_identifier": "minecraft:log2",
+      "new_state_values": {
+        "data": 1
+      }
     },
     {
       "old_identifier": "minecraft:suspicious_gravel",
@@ -2747,7 +2763,7 @@
       "old_identifier": "minecraft:warped_hyphae",
       "new_identifier": "minecraft:log2",
       "new_state_values": {
-        "data": 17
+        "data": 1
       }
     },
     {
@@ -2791,7 +2807,7 @@
       "old_identifier": "minecraft:warped_stem",
       "new_identifier": "minecraft:log2",
       "new_state_values": {
-        "data": 5
+        "data": 1
       }
     },
     {
@@ -2849,7 +2865,7 @@
       "old_identifier": "minecraft:waxed_cut_copper_slab",
       "new_identifier": "minecraft:stone_slab",
       "new_state_values": {
-        "data": 4
+        "data": 5
       }
     },
     {
@@ -2888,7 +2904,7 @@
       "old_identifier": "minecraft:waxed_exposed_cut_copper_slab",
       "new_identifier": "minecraft:stone_slab",
       "new_state_values": {
-        "data": 4
+        "data": 5
       }
     },
     {
@@ -2927,7 +2943,7 @@
       "old_identifier": "minecraft:waxed_oxidized_cut_copper_slab",
       "new_identifier": "minecraft:stone_slab",
       "new_state_values": {
-        "data": 4
+        "data": 5
       }
     },
     {
@@ -2966,7 +2982,7 @@
       "old_identifier": "minecraft:waxed_weathered_cut_copper_slab",
       "new_identifier": "minecraft:stone_slab",
       "new_state_values": {
-        "data": 4
+        "data": 5
       }
     },
     {
@@ -3005,7 +3021,7 @@
       "old_identifier": "minecraft:weathered_cut_copper_slab",
       "new_identifier": "minecraft:stone_slab",
       "new_state_values": {
-        "data": 4
+        "data": 5
       }
     },
     {
