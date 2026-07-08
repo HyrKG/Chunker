@@ -187,6 +187,10 @@ export const zh = {
             display: "启用 LevelDB 压缩",
             description: "在结束时压缩数据库，可能导致转换时间变长。",
         },
+        replaceAquaticPlantsWithWater: {
+            display: "水中水生植物替换为水",
+            description: "导出时，水草、海带等水生植物若六向任一方向接触水，则直接写出为水，用于修复降级后水中的空气洞。",
+        },
     },
     cli: {
         title: "导出 CLI 设置",

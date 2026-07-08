@@ -176,6 +176,14 @@ public interface Converter {
     boolean shouldPreventYBiomeBlending();
 
     /**
+     * Whether aquatic plants (seagrass, kelp) touching water should be replaced with water. This is used to fix air
+     * pockets left in water after downgrading.
+     *
+     * @return true if aquatic plants touching water should be replaced with water.
+     */
+    boolean shouldReplaceAquaticPlantsWithWater();
+
+    /**
      * Get the dimension mapping given an input.
      *
      * @param dimension the input dimension.

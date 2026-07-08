@@ -42,6 +42,7 @@ public class ConvertRequest extends BasicMessage implements InvokesWorldConverte
     private final boolean discardEmptyChunks;
     private final boolean preventYBiomeBlending;
     private final boolean customIdentifiers;
+    private final boolean replaceAquaticPlantsWithWater;
 
     /**
      * Create a new conversion request.
@@ -65,8 +66,9 @@ public class ConvertRequest extends BasicMessage implements InvokesWorldConverte
      * @param enableCompact          whether the world should be compacted after conversion (Bedrock).
      * @param discardEmptyChunks     whether empty chunks should not be written.
      * @param preventYBiomeBlending  whether biomes should be prevented from blending (Java).
+     * @param replaceAquaticPlantsWithWater whether aquatic plants touching water should be replaced with water.
      */
-    public ConvertRequest(UUID anonymousId, String inputPath, String outputPath, String outputType, @Nullable JsonObject customDimensions, @Nullable Map<String, String> inputToOutputDimension, @Nullable Map<String, String> biomeMappings, @Nullable JsonObject mappings, @Nullable JsonObject nbtSettings, @Nullable JsonArray maps, boolean copyNbt, @Nullable DimensionPruningList pruningList, boolean skipMaps, boolean skipLootTables, boolean skipItemConversion, boolean customIdentifiers, boolean skipBlockConnections, boolean enableCompact, boolean discardEmptyChunks, boolean preventYBiomeBlending) {
+    public ConvertRequest(UUID anonymousId, String inputPath, String outputPath, String outputType, @Nullable JsonObject customDimensions, @Nullable Map<String, String> inputToOutputDimension, @Nullable Map<String, String> biomeMappings, @Nullable JsonObject mappings, @Nullable JsonObject nbtSettings, @Nullable JsonArray maps, boolean copyNbt, @Nullable DimensionPruningList pruningList, boolean skipMaps, boolean skipLootTables, boolean skipItemConversion, boolean customIdentifiers, boolean skipBlockConnections, boolean enableCompact, boolean discardEmptyChunks, boolean preventYBiomeBlending, boolean replaceAquaticPlantsWithWater) {
         this.anonymousId = anonymousId;
         this.inputPath = inputPath;
         this.outputPath = outputPath;
@@ -87,6 +89,7 @@ public class ConvertRequest extends BasicMessage implements InvokesWorldConverte
         this.enableCompact = enableCompact;
         this.discardEmptyChunks = discardEmptyChunks;
         this.preventYBiomeBlending = preventYBiomeBlending;
+        this.replaceAquaticPlantsWithWater = replaceAquaticPlantsWithWater;
     }
 
     /**
@@ -112,8 +115,9 @@ public class ConvertRequest extends BasicMessage implements InvokesWorldConverte
      * @param enableCompact          whether the world should be compacted after conversion (Bedrock).
      * @param discardEmptyChunks     whether empty chunks should not be written.
      * @param preventYBiomeBlending  whether biomes should be prevented from blending (Java).
+     * @param replaceAquaticPlantsWithWater whether aquatic plants touching water should be replaced with water.
      */
-    public ConvertRequest(UUID requestId, UUID anonymousId, String inputPath, String outputPath, String outputType, @Nullable JsonObject customDimensions, @Nullable Map<String, String> inputToOutputDimension, @Nullable Map<String, String> biomeMappings, @Nullable JsonObject mappings, @Nullable JsonObject nbtSettings, @Nullable JsonArray maps, boolean copyNbt, @Nullable DimensionPruningList pruningList, boolean skipMaps, boolean skipLootTables, boolean skipItemConversion, boolean customIdentifiers, boolean skipBlockConnections, boolean enableCompact, boolean discardEmptyChunks, boolean preventYBiomeBlending) {
+    public ConvertRequest(UUID requestId, UUID anonymousId, String inputPath, String outputPath, String outputType, @Nullable JsonObject customDimensions, @Nullable Map<String, String> inputToOutputDimension, @Nullable Map<String, String> biomeMappings, @Nullable JsonObject mappings, @Nullable JsonObject nbtSettings, @Nullable JsonArray maps, boolean copyNbt, @Nullable DimensionPruningList pruningList, boolean skipMaps, boolean skipLootTables, boolean skipItemConversion, boolean customIdentifiers, boolean skipBlockConnections, boolean enableCompact, boolean discardEmptyChunks, boolean preventYBiomeBlending, boolean replaceAquaticPlantsWithWater) {
         super(requestId);
         this.anonymousId = anonymousId;
         this.inputPath = inputPath;
@@ -135,6 +139,7 @@ public class ConvertRequest extends BasicMessage implements InvokesWorldConverte
         this.enableCompact = enableCompact;
         this.discardEmptyChunks = discardEmptyChunks;
         this.preventYBiomeBlending = preventYBiomeBlending;
+        this.replaceAquaticPlantsWithWater = replaceAquaticPlantsWithWater;
     }
 
     /**
@@ -325,5 +330,14 @@ public class ConvertRequest extends BasicMessage implements InvokesWorldConverte
      */
     public boolean isPreventYBiomeBlending() {
         return preventYBiomeBlending;
+    }
+
+    /**
+     * Whether aquatic plants touching water should be replaced with water.
+     *
+     * @return true if aquatic plants touching water should be replaced with water.
+     */
+    public boolean isReplaceAquaticPlantsWithWater() {
+        return replaceAquaticPlantsWithWater;
     }
 }

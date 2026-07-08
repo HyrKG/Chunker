@@ -63,6 +63,12 @@ export class ConverterSettingsTab extends Component {
                 "name": "preventYBiomeBlending",
                 "description": t("converter.preventYBiomeBlending.description"),
                 "type": "Boolean"
+            },
+            {
+                "display": t("converter.replaceAquaticPlantsWithWater.display"),
+                "name": "replaceAquaticPlantsWithWater",
+                "description": t("converter.replaceAquaticPlantsWithWater.description"),
+                "type": "Boolean"
             }
         ];
 

@@ -831,7 +831,8 @@ export class Session {
             skipBlockConnections: data.hasOwnProperty("blockConnections") && !data["blockConnections"],
             enableCompact: !data.hasOwnProperty("enableCompact") || data["enableCompact"],
             discardEmptyChunks: data.hasOwnProperty("discardEmptyChunks") && data["discardEmptyChunks"],
-            preventYBiomeBlending: data.hasOwnProperty("preventYBiomeBlending") && data["preventYBiomeBlending"]
+            preventYBiomeBlending: data.hasOwnProperty("preventYBiomeBlending") && data["preventYBiomeBlending"],
+            replaceAquaticPlantsWithWater: data.hasOwnProperty("replaceAquaticPlantsWithWater") && data["replaceAquaticPlantsWithWater"]
         }
 
         // Send the convert version request

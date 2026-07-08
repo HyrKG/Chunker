@@ -25,7 +25,8 @@ export class App extends Component {
         mapConversion: true,
         enableCompact: true,
         discardEmptyChunks: false,
-        preventYBiomeBlending: false
+        preventYBiomeBlending: false,
+        replaceAquaticPlantsWithWater: false
     };
     state = {
         previewProgress: this.previewProgress.state,

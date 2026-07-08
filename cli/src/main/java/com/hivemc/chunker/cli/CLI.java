@@ -368,6 +368,7 @@ public class CLI implements Runnable {
                     boolean discardEmptyChunks = parsedConverterSettings.has("discardEmptyChunks") && parsedConverterSettings.get("discardEmptyChunks").getAsBoolean();
                     boolean preventYBiomeBlending = parsedConverterSettings.has("preventYBiomeBlending") && parsedConverterSettings.get("preventYBiomeBlending").getAsBoolean();
                     boolean customIdentifiers = !parsedConverterSettings.has("customIdentifiers") || parsedConverterSettings.get("customIdentifiers").getAsBoolean();
+                    boolean replaceAquaticPlantsWithWater = parsedConverterSettings.has("replaceAquaticPlantsWithWater") && parsedConverterSettings.get("replaceAquaticPlantsWithWater").getAsBoolean();
 
                     // Apply the settings
                     worldConverter.setProcessMaps(!skipMaps);
@@ -378,6 +379,7 @@ public class CLI implements Runnable {
                     worldConverter.setDiscardEmptyChunks(discardEmptyChunks);
                     worldConverter.setPreventYBiomeBlending(preventYBiomeBlending);
                     worldConverter.setCustomIdentifiers(customIdentifiers);
+                    worldConverter.setReplaceAquaticPlantsWithWater(replaceAquaticPlantsWithWater);
                 } catch (Exception e) {
                     System.err.println("Failed to parse converter settings.");
                     throw new RuntimeException(e);

@@ -11,6 +11,7 @@ import com.hivemc.chunker.conversion.handlers.ColumnConversionHandler;
 import com.hivemc.chunker.conversion.handlers.LevelConversionHandler;
 import com.hivemc.chunker.conversion.handlers.WorldConversionHandler;
 import com.hivemc.chunker.conversion.handlers.pipeline.Pipeline;
+import com.hivemc.chunker.conversion.handlers.pretransform.AquaticPlantWaterReplacementPreTransformConversionHandler;
 import com.hivemc.chunker.conversion.handlers.pretransform.ColumnPreTransformConversionHandler;
 import com.hivemc.chunker.conversion.handlers.pretransform.ColumnPreTransformWriterConversionHandler;
 import com.hivemc.chunker.conversion.handlers.writer.LevelWriterConversionHandler;
@@ -94,6 +95,7 @@ public class WorldConverter implements Converter {
     private boolean discardEmptyChunks = false;
     private boolean preventYBiomeBlending = false;
     private boolean customIdentifiers = true;
+    private boolean replaceAquaticPlantsWithWater = false;
     private boolean exceptions = false;
     private boolean cancelled = false;
 
@@ -278,6 +280,15 @@ public class WorldConverter implements Converter {
         this.customIdentifiers = customIdentifiers;
     }
 
+    /**
+     * Set whether aquatic plants (seagrass, kelp) touching water should be replaced with water.
+     *
+     * @param replaceAquaticPlantsWithWater true if aquatic plants touching water should be replaced with water.
+     */
+    public void setReplaceAquaticPlantsWithWater(boolean replaceAquaticPlantsWithWater) {
+        this.replaceAquaticPlantsWithWater = replaceAquaticPlantsWithWater;
+    }
+
     @Override
     public boolean shouldLevelDBCompaction() {
         return levelDBCompaction;
@@ -430,6 +441,11 @@ public class WorldConverter implements Converter {
     }
 
     @Override
+    public boolean shouldReplaceAquaticPlantsWithWater() {
+        return replaceAquaticPlantsWithWater;
+    }
+
+    @Override
     @Nullable
     public MappingsFileResolvers getBlockMappings() {
         return blockMappings;
@@ -575,16 +591,24 @@ public class WorldConverter implements Converter {
             // If it's enabled, we need to hold the chunks using the handler
             // The Reader is responsible for solving which edges are needed
             // But we need to call the writer PreTransformManager ourselves as it's before writing.
-            if (shouldProcessColumnPreTransform()) {
+            boolean needsColumnPreTransform = shouldProcessColumnPreTransform() || shouldReplaceAquaticPlantsWithWater();
+            if (needsColumnPreTransform) {
+                // preTransformAllowed indicates whether the writer-side block-connection pre-transform is allowed to
+                // queue neighbouring chunks. This must only follow the user's blockConnections setting, so that
+                // replaceAquaticPlantsWithWater can independently enable neighbouring column reads without enabling the
+                // original block-connection behaviour.
+                boolean preTransformAllowed = shouldProcessColumnPreTransform();
                 // Add the pre-transform writer conversion handler, this ensures columns know which edges are needed
                 // Add pre-transform to the pipeline (this is required to handle processes that need adjacent chunks)
                 pipeline.columnHandlers(
                         (delegate, world) -> new ColumnPreTransformWriterConversionHandler(
                                 writer::getPreTransformManager,
                                 delegate,
-                                true
+                                preTransformAllowed
                         ),
-                        ColumnPreTransformConversionHandler::new
+                        shouldReplaceAquaticPlantsWithWater()
+                                ? AquaticPlantWaterReplacementPreTransformConversionHandler::new
+                                : ColumnPreTransformConversionHandler::new
                 );
             } else {
                 // Add the writer handler, this ensures that the writer is still called just without connected chunks

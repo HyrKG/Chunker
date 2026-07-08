@@ -191,6 +191,10 @@ export const en = {
             display: "Enable LevelDB Compact",
             description: "Compacts the database at the end, may cause longer conversion times.",
         },
+        replaceAquaticPlantsWithWater: {
+            display: "Replace aquatic plants in water with water",
+            description: "When exporting, replace seagrass, kelp, and similar aquatic plants with water if any of their six neighboring blocks is water.",
+        },
     },
     cli: {
         title: "Export Settings for CLI",

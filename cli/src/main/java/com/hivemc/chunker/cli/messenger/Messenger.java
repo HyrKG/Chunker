@@ -313,6 +313,7 @@ public class Messenger {
                         worldConverter.setDiscardEmptyChunks(convertRequest.isDiscardEmptyChunks());
                         worldConverter.setPreventYBiomeBlending(convertRequest.isPreventYBiomeBlending());
                         worldConverter.setCustomIdentifiers(convertRequest.isCustomIdentifiers());
+                        worldConverter.setReplaceAquaticPlantsWithWater(convertRequest.isReplaceAquaticPlantsWithWater());
 
                         // Add the handler for the compaction signal to let the UI know
                         worldConverter.setCompactionSignal((started) -> {
