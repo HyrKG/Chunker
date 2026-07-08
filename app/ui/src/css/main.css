@@ -697,6 +697,13 @@ input:checked + .switch:before {
     margin: 35px 0 -45px;
 }
 
+.preset-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
 .tabs li button {
     background: #e3e3e3;
     font: 16px/1em "MetropolisBold", 'Microsoft YaHei', 'PingFang SC', Arial, sans-serif;

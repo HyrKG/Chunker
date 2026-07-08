@@ -214,6 +214,7 @@ export const en = {
         subtitleBefore: "Block mappings allow you to turn one block into another.",
         subtitleAfter: " Blocks which match the input will be turned into the output, states which are not set will also be converted where possible.",
         unavailable: "Block Mapping is currently not available for the current world input/output format.",
+        usePreset: "Use preset: {name}",
         inputBlock: "Input Block ({format} {version})",
         outputBlock: "Output Block ({format} {version})",
         // BlockSelector

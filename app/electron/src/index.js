@@ -119,19 +119,22 @@ const createWindow = () => {
     // Setup data protocol, used for accessing mapping data
     window.webContents.session.protocol.handle("static", request => {
         let {host, pathname} = new URL(request.url);
-        const basePath = path.join(__dirname, "..", "data");
 
-        // Only blocks is supported
-        if (host !== "blocks") {
+        let basePath;
+        if (host === "blocks") {
+            basePath = path.join(__dirname, "..", "data");
+
+            // Transform FORMAT_VERSION into format/version.json
+            let separator = pathname.indexOf("_");
+            pathname = pathname.substring(0, separator).toLowerCase() + "/" + pathname.substring(separator + 1) + ".json";
+        } else if (host === "presets") {
+            basePath = path.join(__dirname, "..", "presets");
+        } else {
             return new Response("Not Found", {
                 status: 404,
                 headers: {"content-type": "text/html"}
             })
         }
-
-        // Transform FORMAT_VERSION into format/version.json
-        let separator = pathname.indexOf("_");
-        pathname = pathname.substring(0, separator).toLowerCase() + "/" + pathname.substring(separator + 1) + ".json";
 
         // Ensure the path is safe
         const inputPath = path.join(basePath, pathname);
@@ -148,7 +151,7 @@ const createWindow = () => {
         let fetched;
         if (!app.isPackaged && process.env.DEV_UI_URL) {
             // Fetch the file
-            fetched = net.fetch(process.env.DEV_UI_URL + "/data" + pathname);
+            fetched = net.fetch(process.env.DEV_UI_URL + (host === "blocks" ? "/data" : "/presets") + pathname);
         } else {
             // Check the file exists (and it is a file)
             if (!fs.existsSync(inputPath) || fs.lstatSync(inputPath).isDirectory()) {

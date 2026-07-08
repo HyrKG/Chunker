@@ -8,6 +8,16 @@ import {t} from "../../../../i18n";
 
 export class PaletteMappingsTab extends Component {
     app = this.props.app;
+    state = {
+        presets: []
+    };
+
+    componentDidMount() {
+        fetch("static://presets/block_mappings/index.json")
+            .then(res => res.ok ? res.json() : [])
+            .then(presets => this.setState({presets: presets}))
+            .catch(e => console.info("Failed to load block mapping presets", e));
+    }
 
     delete = (id) => {
         let clone = JSON.parse(JSON.stringify(this.app.state.mappings));
@@ -43,6 +53,13 @@ export class PaletteMappingsTab extends Component {
         }
     };
 
+    usePreset = (preset) => {
+        fetch("static://presets/block_mappings/" + preset.file)
+            .then(res => res.json())
+            .then(mappings => this.app.setState({mappings: mappings}))
+            .catch(e => console.info("Failed to load block mapping preset", e));
+    };
+
     render() {
         let inputVersion = getVersionName(this.app.state.inputType.id);
         let inputFormat = getLocalizedFormatName(this.app.state.inputType.id);
@@ -50,12 +67,21 @@ export class PaletteMappingsTab extends Component {
         let outputVersion = getVersionName(this.app.state.outputType.id);
         let outputFormat = getLocalizedFormatName(this.app.state.outputType.id);
         let outputJava = this.app.state.outputType.id.startsWith("JAVA_");
+        let presets = this.state.presets.filter(preset => preset.input === this.app.state.inputType.id && preset.output === this.app.state.outputType.id);
         return (
             <div>
                 <div className="topbar">
                     <h1>{t("blocks.title")}</h1>
                     <h2><b>{t("blocks.subtitleBefore")}</b>{t("blocks.subtitleAfter")}
                     </h2>
+                    {presets.length > 0 &&
+                        <div className="preset-actions">
+                            {presets.map(preset => (
+                                <button className="button blue" key={preset.file} onClick={() => this.usePreset(preset)}>
+                                    {t("blocks.usePreset", {name: preset.name})}
+                                </button>
+                            ))}
+                        </div>}
                 </div>
                 <div className="main_content settings dimensions">
                     {(this.app.state.inputBlockSuggestions.length === 0 || this.app.state.outputBlockSuggestions.length === 0) &&

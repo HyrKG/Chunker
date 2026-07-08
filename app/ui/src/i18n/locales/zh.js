@@ -209,6 +209,7 @@ export const zh = {
         subtitleBefore: "方块映射可让你将一种方块变成另一种。",
         subtitleAfter: "匹配输入的方块将被转换为输出，未设置的状态也会尽可能转换。",
         unavailable: "当前世界的输入/输出格式不支持方块映射。",
+        usePreset: "使用预设：{name}",
         inputBlock: "输入方块（{format} {version}）",
         outputBlock: "输出方块（{format} {version}）",
         blocksGroup: "方块",

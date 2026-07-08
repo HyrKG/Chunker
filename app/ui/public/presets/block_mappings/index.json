@@ -1,0 +1,14 @@
+[
+  {
+    "input": "JAVA_1_21_8",
+    "output": "JAVA_1_12_2",
+    "name": "Java 1.21.8 -> Java 1.12.2",
+    "file": "java_1_21_8_to_java_1_12_2.json"
+  },
+  {
+    "input": "JAVA_1_21_8",
+    "output": "JAVA_1_12_2",
+    "name": "Java 1.21.8 -> Java 1.12.2 (颜色优先)",
+    "file": "java_1_21_8_to_java_1_12_2_color_priority.json"
+  }
+]
