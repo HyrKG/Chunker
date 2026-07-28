@@ -363,6 +363,8 @@ public class CLI implements Runnable {
                     boolean skipMaps = parsedConverterSettings.has("mapConversion") && !parsedConverterSettings.get("mapConversion").getAsBoolean();
                     boolean skipLootTables = parsedConverterSettings.has("lootTableConversion") && !parsedConverterSettings.get("lootTableConversion").getAsBoolean();
                     boolean skipItemConversion = parsedConverterSettings.has("itemConversion") && !parsedConverterSettings.get("itemConversion").getAsBoolean();
+                    boolean skipBlockEntities = parsedConverterSettings.has("blockEntityConversion") && !parsedConverterSettings.get("blockEntityConversion").getAsBoolean();
+                    boolean skipEntities = parsedConverterSettings.has("entityConversion") && !parsedConverterSettings.get("entityConversion").getAsBoolean();
                     boolean skipBlockConnections = parsedConverterSettings.has("blockConnections") && !parsedConverterSettings.get("blockConnections").getAsBoolean();
                     boolean enableCompact = !parsedConverterSettings.has("enableCompact") || parsedConverterSettings.get("enableCompact").getAsBoolean();
                     boolean discardEmptyChunks = parsedConverterSettings.has("discardEmptyChunks") && parsedConverterSettings.get("discardEmptyChunks").getAsBoolean();
@@ -374,6 +376,8 @@ public class CLI implements Runnable {
                     worldConverter.setProcessMaps(!skipMaps);
                     worldConverter.setProcessLootTables(!skipLootTables);
                     worldConverter.setProcessItems(!skipItemConversion);
+                    worldConverter.setProcessBlockEntities(!skipBlockEntities);
+                    worldConverter.setProcessEntities(!skipEntities);
                     worldConverter.setProcessColumnPreTransform(!skipBlockConnections);
                     worldConverter.setLevelDBCompaction(enableCompact);
                     worldConverter.setDiscardEmptyChunks(discardEmptyChunks);

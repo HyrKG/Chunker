@@ -37,6 +37,8 @@ public class ConvertRequest extends BasicMessage implements InvokesWorldConverte
     private final boolean skipMaps;
     private final boolean skipLootTables;
     private final boolean skipItemConversion;
+    private final boolean skipBlockEntities;
+    private final boolean skipEntities;
     private final boolean skipBlockConnections;
     private final boolean enableCompact;
     private final boolean discardEmptyChunks;
@@ -61,6 +63,8 @@ public class ConvertRequest extends BasicMessage implements InvokesWorldConverte
      * @param skipMaps               whether in-game maps should be skipped.
      * @param skipLootTables         whether loot tables inside containers should be skipped.
      * @param skipItemConversion     whether air should be used instead of converting items.
+     * @param skipBlockEntities      whether block entities / tile entities should be skipped.
+     * @param skipEntities           whether entities should be skipped.
      * @param customIdentifiers      whether custom identifiers should be read/written.
      * @param skipBlockConnections   whether data based on other chunks should be skipped.
      * @param enableCompact          whether the world should be compacted after conversion (Bedrock).
@@ -68,7 +72,7 @@ public class ConvertRequest extends BasicMessage implements InvokesWorldConverte
      * @param preventYBiomeBlending  whether biomes should be prevented from blending (Java).
      * @param replaceAquaticPlantsWithWater whether aquatic plants touching water should be replaced with water.
      */
-    public ConvertRequest(UUID anonymousId, String inputPath, String outputPath, String outputType, @Nullable JsonObject customDimensions, @Nullable Map<String, String> inputToOutputDimension, @Nullable Map<String, String> biomeMappings, @Nullable JsonObject mappings, @Nullable JsonObject nbtSettings, @Nullable JsonArray maps, boolean copyNbt, @Nullable DimensionPruningList pruningList, boolean skipMaps, boolean skipLootTables, boolean skipItemConversion, boolean customIdentifiers, boolean skipBlockConnections, boolean enableCompact, boolean discardEmptyChunks, boolean preventYBiomeBlending, boolean replaceAquaticPlantsWithWater) {
+    public ConvertRequest(UUID anonymousId, String inputPath, String outputPath, String outputType, @Nullable JsonObject customDimensions, @Nullable Map<String, String> inputToOutputDimension, @Nullable Map<String, String> biomeMappings, @Nullable JsonObject mappings, @Nullable JsonObject nbtSettings, @Nullable JsonArray maps, boolean copyNbt, @Nullable DimensionPruningList pruningList, boolean skipMaps, boolean skipLootTables, boolean skipItemConversion, boolean skipBlockEntities, boolean skipEntities, boolean customIdentifiers, boolean skipBlockConnections, boolean enableCompact, boolean discardEmptyChunks, boolean preventYBiomeBlending, boolean replaceAquaticPlantsWithWater) {
         this.anonymousId = anonymousId;
         this.inputPath = inputPath;
         this.outputPath = outputPath;
@@ -84,6 +88,8 @@ public class ConvertRequest extends BasicMessage implements InvokesWorldConverte
         this.skipMaps = skipMaps;
         this.skipLootTables = skipLootTables;
         this.skipItemConversion = skipItemConversion;
+        this.skipBlockEntities = skipBlockEntities;
+        this.skipEntities = skipEntities;
         this.customIdentifiers = customIdentifiers;
         this.skipBlockConnections = skipBlockConnections;
         this.enableCompact = enableCompact;
@@ -110,6 +116,8 @@ public class ConvertRequest extends BasicMessage implements InvokesWorldConverte
      * @param skipMaps               whether in-game maps should be skipped.
      * @param skipLootTables         whether loot tables inside containers should be skipped.
      * @param skipItemConversion     whether air should be used instead of converting items.
+     * @param skipBlockEntities      whether block entities / tile entities should be skipped.
+     * @param skipEntities           whether entities should be skipped.
      * @param customIdentifiers      whether custom identifiers should be read/written.
      * @param skipBlockConnections   whether data based on other chunks should be skipped.
      * @param enableCompact          whether the world should be compacted after conversion (Bedrock).
@@ -117,7 +125,7 @@ public class ConvertRequest extends BasicMessage implements InvokesWorldConverte
      * @param preventYBiomeBlending  whether biomes should be prevented from blending (Java).
      * @param replaceAquaticPlantsWithWater whether aquatic plants touching water should be replaced with water.
      */
-    public ConvertRequest(UUID requestId, UUID anonymousId, String inputPath, String outputPath, String outputType, @Nullable JsonObject customDimensions, @Nullable Map<String, String> inputToOutputDimension, @Nullable Map<String, String> biomeMappings, @Nullable JsonObject mappings, @Nullable JsonObject nbtSettings, @Nullable JsonArray maps, boolean copyNbt, @Nullable DimensionPruningList pruningList, boolean skipMaps, boolean skipLootTables, boolean skipItemConversion, boolean customIdentifiers, boolean skipBlockConnections, boolean enableCompact, boolean discardEmptyChunks, boolean preventYBiomeBlending, boolean replaceAquaticPlantsWithWater) {
+    public ConvertRequest(UUID requestId, UUID anonymousId, String inputPath, String outputPath, String outputType, @Nullable JsonObject customDimensions, @Nullable Map<String, String> inputToOutputDimension, @Nullable Map<String, String> biomeMappings, @Nullable JsonObject mappings, @Nullable JsonObject nbtSettings, @Nullable JsonArray maps, boolean copyNbt, @Nullable DimensionPruningList pruningList, boolean skipMaps, boolean skipLootTables, boolean skipItemConversion, boolean skipBlockEntities, boolean skipEntities, boolean customIdentifiers, boolean skipBlockConnections, boolean enableCompact, boolean discardEmptyChunks, boolean preventYBiomeBlending, boolean replaceAquaticPlantsWithWater) {
         super(requestId);
         this.anonymousId = anonymousId;
         this.inputPath = inputPath;
@@ -134,6 +142,8 @@ public class ConvertRequest extends BasicMessage implements InvokesWorldConverte
         this.skipMaps = skipMaps;
         this.skipLootTables = skipLootTables;
         this.skipItemConversion = skipItemConversion;
+        this.skipBlockEntities = skipBlockEntities;
+        this.skipEntities = skipEntities;
         this.customIdentifiers = customIdentifiers;
         this.skipBlockConnections = skipBlockConnections;
         this.enableCompact = enableCompact;
@@ -284,6 +294,24 @@ public class ConvertRequest extends BasicMessage implements InvokesWorldConverte
      */
     public boolean isSkipItemConversion() {
         return skipItemConversion;
+    }
+
+    /**
+     * Whether block entity / tile entity conversion should be skipped.
+     *
+     * @return true if block entities should not be read or written.
+     */
+    public boolean isSkipBlockEntities() {
+        return skipBlockEntities;
+    }
+
+    /**
+     * Whether entity conversion should be skipped.
+     *
+     * @return true if entities should not be read or written.
+     */
+    public boolean isSkipEntities() {
+        return skipEntities;
     }
 
     /**

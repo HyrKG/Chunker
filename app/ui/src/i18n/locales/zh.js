@@ -167,6 +167,14 @@ export const zh = {
             display: "转换物品",
             description: "是否启用物品转换。",
         },
+        blockEntityConversion: {
+            display: "转换方块实体",
+            description: "是否转换方块实体（Tile Entity），例如箱子、熔炉、告示牌、命令方块等。关闭后将去除全部方块实体数据。",
+        },
+        entityConversion: {
+            display: "转换实体",
+            description: "是否转换实体（Entity），例如生物、掉落物、盔甲架、画等。关闭后将不导出全部实体。",
+        },
         lootTableConversion: {
             display: "转换结构战利品表",
             description: "转换器是否应尝试匹配结构战利品表文件。",

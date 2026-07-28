@@ -9,6 +9,8 @@
       "customIdentifiers": true,
       "blockConnections": true,
       "itemConversion": true,
+      "blockEntityConversion": true,
+      "entityConversion": true,
       "lootTableConversion": true,
       "mapConversion": true,
       "enableCompact": false,
@@ -42,6 +44,26 @@
       "type": "boolean",
       "title": "Convert Items",
       "description": "Whether converting items should be enabled.",
+      "default": true,
+      "examples": [
+        true,
+        false
+      ]
+    },
+    "blockEntityConversion": {
+      "type": "boolean",
+      "title": "Convert Block Entities",
+      "description": "Whether block entities (tile entities) such as chests, furnaces, signs, and command blocks should be converted. Disable to strip all tile entity data.",
+      "default": true,
+      "examples": [
+        true,
+        false
+      ]
+    },
+    "entityConversion": {
+      "type": "boolean",
+      "title": "Convert Entities",
+      "description": "Whether entities such as mobs, item drops, armor stands, and paintings should be converted. Disable to strip all entity data.",
       "default": true,
       "examples": [
         true,

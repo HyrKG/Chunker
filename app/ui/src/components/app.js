@@ -21,6 +21,8 @@ export class App extends Component {
         customIdentifiers: true,
         blockConnections: true,
         itemConversion: true,
+        blockEntityConversion: true,
+        entityConversion: true,
         lootTableConversion: true,
         mapConversion: true,
         enableCompact: true,

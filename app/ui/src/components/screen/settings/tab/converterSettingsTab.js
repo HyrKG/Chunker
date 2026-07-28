@@ -41,6 +41,18 @@ export class ConverterSettingsTab extends Component {
                 "type": "Boolean"
             },
             {
+                "display": t("converter.blockEntityConversion.display"),
+                "name": "blockEntityConversion",
+                "description": t("converter.blockEntityConversion.description"),
+                "type": "Boolean"
+            },
+            {
+                "display": t("converter.entityConversion.display"),
+                "name": "entityConversion",
+                "description": t("converter.entityConversion.description"),
+                "type": "Boolean"
+            },
+            {
                 "display": t("converter.lootTableConversion.display"),
                 "name": "lootTableConversion",
                 "description": t("converter.lootTableConversion.description"),

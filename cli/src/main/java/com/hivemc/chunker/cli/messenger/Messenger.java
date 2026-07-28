@@ -308,6 +308,8 @@ public class Messenger {
                         worldConverter.setProcessMaps(!convertRequest.isSkipMaps());
                         worldConverter.setProcessLootTables(!convertRequest.isSkipLootTables());
                         worldConverter.setProcessItems(!convertRequest.isSkipItemConversion());
+                        worldConverter.setProcessBlockEntities(!convertRequest.isSkipBlockEntities());
+                        worldConverter.setProcessEntities(!convertRequest.isSkipEntities());
                         worldConverter.setProcessColumnPreTransform(!convertRequest.isSkipBlockConnections());
                         worldConverter.setLevelDBCompaction(convertRequest.isEnableCompact());
                         worldConverter.setDiscardEmptyChunks(convertRequest.isDiscardEmptyChunks());

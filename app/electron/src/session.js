@@ -827,6 +827,8 @@ export class Session {
             skipMaps: data.hasOwnProperty("mapConversion") && !data["mapConversion"],
             skipLootTables: data.hasOwnProperty("lootTableConversion") && !data["lootTableConversion"],
             skipItemConversion: data.hasOwnProperty("itemConversion") && !data["itemConversion"],
+            skipBlockEntities: data.hasOwnProperty("blockEntityConversion") && !data["blockEntityConversion"],
+            skipEntities: data.hasOwnProperty("entityConversion") && !data["entityConversion"],
             customIdentifiers: !data.hasOwnProperty("customIdentifiers") || data["customIdentifiers"],
             skipBlockConnections: data.hasOwnProperty("blockConnections") && !data["blockConnections"],
             enableCompact: !data.hasOwnProperty("enableCompact") || data["enableCompact"],
