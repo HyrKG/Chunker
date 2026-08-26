@@ -309,57 +309,47 @@ public class BedrockColumnReader implements ColumnReader {
     protected ChunkerColumn postProcess(ChunkerColumn column) {
         // Create any block entities / entities which are based on blocks
         for (ChunkerChunk chunk : column.getChunks().values()) {
-            resolvers.blockEntityResolver().generateBeforeProcessBlockEntities(column, chunk);
-            resolvers.entityResolver().generateBeforeProcessEntities(column, chunk);
-        }
-
-        // Update the column from the block entities
-        List<BlockEntity> blockEntities = column.getBlockEntities();
-        for (int i = 0; i < blockEntities.size(); i++) {
-            BlockEntity blockEntity = blockEntities.get(i);
-            BlockEntity replacement = resolvers.blockEntityResolver().updateBeforeProcess(
-                    column,
-                    blockEntity.getX(),
-                    blockEntity.getY(),
-                    blockEntity.getZ(),
-                    blockEntity
-            );
-
-            // Apply replacement if needed
-            if (replacement != blockEntity) {
-                blockEntities.set(i, replacement);
+            if (converter.shouldProcessBlockEntities()) {
+                resolvers.blockEntityResolver().generateBeforeProcessBlockEntities(column, chunk);
+            }
+            if (converter.shouldProcessEntities()) {
+                resolvers.entityResolver().generateBeforeProcessEntities(column, chunk);
             }
         }
 
-        // Update the column from the entities
-        List<Entity> entities = column.getEntities();
-        for (int i = 0; i < entities.size(); i++) {
-            Entity entity = entities.get(i);
-            Entity replacement = resolvers.entityResolver().updateBeforeProcess(
-                    column,
-                    entity
-            );
+        if (converter.shouldProcessBlockEntities()) {
+            // Update the column from the block entities
+            List<BlockEntity> blockEntities = column.getBlockEntities();
+            for (int i = 0; i < blockEntities.size(); i++) {
+                BlockEntity blockEntity = blockEntities.get(i);
+                BlockEntity replacement = resolvers.blockEntityResolver().updateBeforeProcess(column, blockEntity.getX(), blockEntity.getY(), blockEntity.getZ(), blockEntity);
 
-            // Apply replacement if needed
-            if (replacement != entity) {
-                entities.set(i, replacement);
+                // Apply replacement if needed
+                if (replacement != blockEntity) {
+                    blockEntities.set(i, replacement);
+                }
             }
+
+            // Run any block entity removal logic
+            column.getBlockEntities().removeIf(blockEntity -> resolvers.blockEntityResolver().shouldRemoveBeforeProcess(column, blockEntity.getX(), blockEntity.getY(), blockEntity.getZ(), blockEntity));
         }
 
-        // Run any block entity removal logic
-        column.getBlockEntities().removeIf(blockEntity -> resolvers.blockEntityResolver().shouldRemoveBeforeProcess(
-                column,
-                blockEntity.getX(),
-                blockEntity.getY(),
-                blockEntity.getZ(),
-                blockEntity
-        ));
+        if (converter.shouldProcessEntities()) {
+            // Update the column from the entities
+            List<Entity> entities = column.getEntities();
+            for (int i = 0; i < entities.size(); i++) {
+                Entity entity = entities.get(i);
+                Entity replacement = resolvers.entityResolver().updateBeforeProcess(column, entity);
 
-        // Run any entity removal logic
-        column.getEntities().removeIf(entity -> resolvers.entityResolver().shouldRemoveBeforeProcess(
-                column,
-                entity
-        ));
+                // Apply replacement if needed
+                if (replacement != entity) {
+                    entities.set(i, replacement);
+                }
+            }
+
+            // Run any entity removal logic
+            column.getEntities().removeIf(entity -> resolvers.entityResolver().shouldRemoveBeforeProcess(column, entity));
+        }
 
         // Calculate any pre-transforms
         // Note: This will solve any connections which are already possible to keep as much async as possible

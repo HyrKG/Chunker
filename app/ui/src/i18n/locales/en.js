@@ -171,13 +171,9 @@ export const en = {
             display: "Convert Items",
             description: "Whether converting items should be enabled.",
         },
-        blockEntityConversion: {
-            display: "Convert Block Entities",
-            description: "Whether block entities (tile entities) such as chests, furnaces, signs, and command blocks should be converted. Disable to strip all tile entity data.",
-        },
-        entityConversion: {
-            display: "Convert Entities",
-            description: "Whether entities such as mobs, item drops, armor stands, and paintings should be converted. Disable to strip all entity data.",
+        includeEntities: {
+            display: "Include Entities",
+            description: "Include entities and block entities such as mobs, item drops, armor stands, paintings, chests, furnaces, and signs in the exported world.",
         },
         lootTableConversion: {
             display: "Convert Structure Loot Tables",

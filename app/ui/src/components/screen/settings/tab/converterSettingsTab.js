@@ -10,6 +10,11 @@ export class ConverterSettingsTab extends Component {
     updateSetting = (name, value) => {
         let newSettings = Object.assign({}, this.app.state.converterSettings);
 
+        if (name === "includeEntities") {
+            delete newSettings.entityConversion;
+            delete newSettings.blockEntityConversion;
+        }
+
         // If it's the default value delete it
         if (value === this.app.defaultConverterSettings[name]) {
             delete newSettings[name];
@@ -41,15 +46,9 @@ export class ConverterSettingsTab extends Component {
                 "type": "Boolean"
             },
             {
-                "display": t("converter.blockEntityConversion.display"),
-                "name": "blockEntityConversion",
-                "description": t("converter.blockEntityConversion.description"),
-                "type": "Boolean"
-            },
-            {
-                "display": t("converter.entityConversion.display"),
-                "name": "entityConversion",
-                "description": t("converter.entityConversion.description"),
+                "display": t("converter.includeEntities.display"),
+                "name": "includeEntities",
+                "description": t("converter.includeEntities.description"),
                 "type": "Boolean"
             },
             {
@@ -104,6 +103,9 @@ export class ConverterSettingsTab extends Component {
         let app = this.app;
         normal.forEach(obj => {
             let value = app.state.converterSettings[obj.name];
+            if (obj.name === "includeEntities" && value === undefined) {
+                value = app.state.converterSettings.entityConversion !== false || app.state.converterSettings.blockEntityConversion !== false;
+            }
             obj.value = value !== undefined ? value : app.defaultConverterSettings[obj.name];
         });
         return normal;

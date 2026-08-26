@@ -809,6 +809,9 @@ export class Session {
             });
         }
 
+        const skipEntities = data.hasOwnProperty("includeEntities") ? !data["includeEntities"] : data.hasOwnProperty("entityConversion") && !data["entityConversion"];
+        const skipBlockEntities = data.hasOwnProperty("includeEntities") ? !data["includeEntities"] : data.hasOwnProperty("blockEntityConversion") && !data["blockEntityConversion"];
+
         // Process request
         let request = {
             type: "convert",
@@ -827,8 +830,8 @@ export class Session {
             skipMaps: data.hasOwnProperty("mapConversion") && !data["mapConversion"],
             skipLootTables: data.hasOwnProperty("lootTableConversion") && !data["lootTableConversion"],
             skipItemConversion: data.hasOwnProperty("itemConversion") && !data["itemConversion"],
-            skipBlockEntities: data.hasOwnProperty("blockEntityConversion") && !data["blockEntityConversion"],
-            skipEntities: data.hasOwnProperty("entityConversion") && !data["entityConversion"],
+            skipBlockEntities: skipBlockEntities,
+            skipEntities: skipEntities,
             customIdentifiers: !data.hasOwnProperty("customIdentifiers") || data["customIdentifiers"],
             skipBlockConnections: data.hasOwnProperty("blockConnections") && !data["blockConnections"],
             enableCompact: !data.hasOwnProperty("enableCompact") || data["enableCompact"],

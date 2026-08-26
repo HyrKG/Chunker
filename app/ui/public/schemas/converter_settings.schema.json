@@ -9,8 +9,7 @@
       "customIdentifiers": true,
       "blockConnections": true,
       "itemConversion": true,
-      "blockEntityConversion": true,
-      "entityConversion": true,
+      "includeEntities": true,
       "lootTableConversion": true,
       "mapConversion": true,
       "enableCompact": false,
@@ -50,10 +49,20 @@
         false
       ]
     },
+    "includeEntities": {
+      "type": "boolean",
+      "title": "Include Entities",
+      "description": "Whether entities and block entities should be included in the exported world.",
+      "default": true,
+      "examples": [
+        true,
+        false
+      ]
+    },
     "blockEntityConversion": {
       "type": "boolean",
-      "title": "Convert Block Entities",
-      "description": "Whether block entities (tile entities) such as chests, furnaces, signs, and command blocks should be converted. Disable to strip all tile entity data.",
+      "title": "Convert Block Entities (Legacy)",
+      "description": "Legacy setting used to control block entities when includeEntities is absent.",
       "default": true,
       "examples": [
         true,
@@ -62,8 +71,8 @@
     },
     "entityConversion": {
       "type": "boolean",
-      "title": "Convert Entities",
-      "description": "Whether entities such as mobs, item drops, armor stands, and paintings should be converted. Disable to strip all entity data.",
+      "title": "Convert Entities (Legacy)",
+      "description": "Legacy setting used to control entities when includeEntities is absent.",
       "default": true,
       "examples": [
         true,

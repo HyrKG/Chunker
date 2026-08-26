@@ -82,8 +82,12 @@ public class JavaColumnWriter implements ColumnWriter {
         ArrayList<Task<TagWithName<?>>> processing = new ArrayList<>(5);
         processing.add(Task.async("Writing HeightMap", TaskWeight.NORMAL, this::writeHeightMap, chunkerColumn));
         processing.add(Task.async("Writing Biomes", TaskWeight.NORMAL, this::writeBiomes, chunkerColumn));
-        processing.add(Task.async("Writing Entities", TaskWeight.HIGH, this::writeEntities, chunkerColumn));
-        processing.add(Task.async("Writing Block Entities", TaskWeight.HIGH, this::writeBlockEntities, chunkerColumn));
+        if (converter.shouldProcessEntities()) {
+            processing.add(Task.async("Writing Entities", TaskWeight.HIGH, this::writeEntities, chunkerColumn));
+        }
+        if (converter.shouldProcessBlockEntities()) {
+            processing.add(Task.async("Writing Block Entities", TaskWeight.HIGH, this::writeBlockEntities, chunkerColumn));
+        }
         processing.add(Task.async("Writing Chunks", TaskWeight.HIGHER, this::writeChunks, chunkerColumn));
 
         // Write POI
@@ -319,48 +323,47 @@ public class JavaColumnWriter implements ColumnWriter {
     protected void preProcessColumn(ChunkerColumn column, CompoundTag columnNBT) {
         // Create any block entities / entities which are based on blocks
         for (ChunkerChunk chunk : column.getChunks().values()) {
-            resolvers.blockEntityResolver().generateBeforeWriteBlockEntities(column, chunk);
-            resolvers.entityResolver().generateBeforeWriteEntities(column, chunk);
-        }
-
-        // Update the column from the block entities
-        List<BlockEntity> blockEntities = column.getBlockEntities();
-        for (int i = 0; i < blockEntities.size(); i++) {
-            BlockEntity blockEntity = blockEntities.get(i);
-            BlockEntity replacement = resolvers.blockEntityResolver().updateBeforeWrite(
-                    column,
-                    blockEntity.getX(),
-                    blockEntity.getY(),
-                    blockEntity.getZ(),
-                    blockEntity
-            );
-
-            // Apply replacement if needed
-            if (replacement != blockEntity) {
-                blockEntities.set(i, replacement);
+            if (converter.shouldProcessBlockEntities()) {
+                resolvers.blockEntityResolver().generateBeforeWriteBlockEntities(column, chunk);
+            }
+            if (converter.shouldProcessEntities()) {
+                resolvers.entityResolver().generateBeforeWriteEntities(column, chunk);
             }
         }
 
-        // Update the column from the entities
-        List<Entity> entities = column.getEntities();
-        for (int i = 0; i < entities.size(); i++) {
-            Entity entity = entities.get(i);
-            Entity replacement = resolvers.entityResolver().updateBeforeWrite(column, entity);
+        if (converter.shouldProcessBlockEntities()) {
+            // Update the column from the block entities
+            List<BlockEntity> blockEntities = column.getBlockEntities();
+            for (int i = 0; i < blockEntities.size(); i++) {
+                BlockEntity blockEntity = blockEntities.get(i);
+                BlockEntity replacement = resolvers.blockEntityResolver().updateBeforeWrite(column, blockEntity.getX(), blockEntity.getY(), blockEntity.getZ(), blockEntity);
 
-            // Apply replacement if needed
-            if (replacement != entity) {
-                entities.set(i, replacement);
+                // Apply replacement if needed
+                if (replacement != blockEntity) {
+                    blockEntities.set(i, replacement);
+                }
             }
+
+            // Run any block entity removal logic
+            column.getBlockEntities().removeIf(blockEntity -> shouldRemoveBlockEntityBeforeWrite(column, blockEntity));
         }
 
-        // Run any block entity removal logic
-        column.getBlockEntities().removeIf(blockEntity -> shouldRemoveBlockEntityBeforeWrite(column, blockEntity));
+        if (converter.shouldProcessEntities()) {
+            // Update the column from the entities
+            List<Entity> entities = column.getEntities();
+            for (int i = 0; i < entities.size(); i++) {
+                Entity entity = entities.get(i);
+                Entity replacement = resolvers.entityResolver().updateBeforeWrite(column, entity);
 
-        // Run any entity removal logic
-        column.getEntities().removeIf(entity -> resolvers.entityResolver().shouldRemoveBeforeWrite(
-                column,
-                entity
-        ));
+                // Apply replacement if needed
+                if (replacement != entity) {
+                    entities.set(i, replacement);
+                }
+            }
+
+            // Run any entity removal logic
+            column.getEntities().removeIf(entity -> resolvers.entityResolver().shouldRemoveBeforeWrite(column, entity));
+        }
 
         // Check whether additional chunks needs to be added to prevent Y biome blending
         if (converter.shouldPreventYBiomeBlending() && !column.getChunks().isEmpty()) {
