@@ -316,6 +316,7 @@ public class Messenger {
                         worldConverter.setPreventYBiomeBlending(convertRequest.isPreventYBiomeBlending());
                         worldConverter.setCustomIdentifiers(convertRequest.isCustomIdentifiers());
                         worldConverter.setReplaceAquaticPlantsWithWater(convertRequest.isReplaceAquaticPlantsWithWater());
+                        worldConverter.setRemoveUnsupportedPlants(convertRequest.isRemoveUnsupportedPlants());
 
                         // Add the handler for the compaction signal to let the UI know
                         worldConverter.setCompactionSignal((started) -> {

@@ -28,7 +28,8 @@ export class App extends Component {
         enableCompact: true,
         discardEmptyChunks: false,
         preventYBiomeBlending: false,
-        replaceAquaticPlantsWithWater: false
+        replaceAquaticPlantsWithWater: false,
+        removeUnsupportedPlants: false
     };
     state = {
         previewProgress: this.previewProgress.state,

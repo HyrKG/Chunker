@@ -203,6 +203,10 @@ export const en = {
             display: "Replace aquatic plants in water with water",
             description: "When exporting, replace seagrass, kelp, and similar aquatic plants with water if any of their six neighboring blocks is water.",
         },
+        removeUnsupportedPlants: {
+            display: "Remove unsupported plants",
+            description: "When exporting to legacy Java versions (1.12.2 and earlier), remove flowers, saplings and similar plants whose block below cannot sustain them, preventing the game from crashing with \"Exception while updating neighbours\" when they load.",
+        },
     },
     cli: {
         title: "Export Settings for CLI",

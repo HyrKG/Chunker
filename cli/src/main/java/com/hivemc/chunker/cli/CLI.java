@@ -371,6 +371,7 @@ public class CLI implements Runnable {
                     boolean preventYBiomeBlending = parsedConverterSettings.has("preventYBiomeBlending") && parsedConverterSettings.get("preventYBiomeBlending").getAsBoolean();
                     boolean customIdentifiers = !parsedConverterSettings.has("customIdentifiers") || parsedConverterSettings.get("customIdentifiers").getAsBoolean();
                     boolean replaceAquaticPlantsWithWater = parsedConverterSettings.has("replaceAquaticPlantsWithWater") && parsedConverterSettings.get("replaceAquaticPlantsWithWater").getAsBoolean();
+                    boolean removeUnsupportedPlants = parsedConverterSettings.has("removeUnsupportedPlants") && parsedConverterSettings.get("removeUnsupportedPlants").getAsBoolean();
 
                     // Apply the settings
                     worldConverter.setProcessMaps(!skipMaps);
@@ -384,6 +385,7 @@ public class CLI implements Runnable {
                     worldConverter.setPreventYBiomeBlending(preventYBiomeBlending);
                     worldConverter.setCustomIdentifiers(customIdentifiers);
                     worldConverter.setReplaceAquaticPlantsWithWater(replaceAquaticPlantsWithWater);
+                    worldConverter.setRemoveUnsupportedPlants(removeUnsupportedPlants);
                 } catch (Exception e) {
                     System.err.println("Failed to parse converter settings.");
                     throw new RuntimeException(e);

@@ -4,7 +4,9 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Multimaps;
 import com.google.gson.JsonObject;
+import com.hivemc.chunker.conversion.encoding.EncodingType;
 import com.hivemc.chunker.conversion.encoding.base.Converter;
+import com.hivemc.chunker.conversion.encoding.base.Version;
 import com.hivemc.chunker.conversion.encoding.base.reader.LevelReader;
 import com.hivemc.chunker.conversion.encoding.base.writer.LevelWriter;
 import com.hivemc.chunker.conversion.handlers.ColumnConversionHandler;
@@ -14,6 +16,7 @@ import com.hivemc.chunker.conversion.handlers.pipeline.Pipeline;
 import com.hivemc.chunker.conversion.handlers.pretransform.AquaticPlantWaterReplacementPreTransformConversionHandler;
 import com.hivemc.chunker.conversion.handlers.pretransform.ColumnPreTransformConversionHandler;
 import com.hivemc.chunker.conversion.handlers.pretransform.ColumnPreTransformWriterConversionHandler;
+import com.hivemc.chunker.conversion.handlers.pretransform.UnsupportedPlantRemovalPreTransformConversionHandler;
 import com.hivemc.chunker.conversion.handlers.writer.LevelWriterConversionHandler;
 import com.hivemc.chunker.conversion.intermediate.column.biome.ChunkerBiome;
 import com.hivemc.chunker.conversion.intermediate.column.chunk.ChunkCoordPair;
@@ -96,6 +99,7 @@ public class WorldConverter implements Converter {
     private boolean preventYBiomeBlending = false;
     private boolean customIdentifiers = true;
     private boolean replaceAquaticPlantsWithWater = false;
+    private boolean removeUnsupportedPlants = false;
     private boolean exceptions = false;
     private boolean cancelled = false;
 
@@ -287,6 +291,36 @@ public class WorldConverter implements Converter {
      */
     public void setReplaceAquaticPlantsWithWater(boolean replaceAquaticPlantsWithWater) {
         this.replaceAquaticPlantsWithWater = replaceAquaticPlantsWithWater;
+    }
+
+    /**
+     * Set whether plants which the output version cannot support (e.g. flowers stacked on flowers) should be removed.
+     * <p>
+     * Only applies when the output is Java Edition 1.12.2 or earlier (see
+     * {@link #shouldRemoveUnsupportedPlants(boolean, EncodingType, Version)}), since those versions crash with a
+     * {@code StackOverflowError} when such plants load.
+     *
+     * @param removeUnsupportedPlants true if unsupported plants should be removed.
+     */
+    public void setRemoveUnsupportedPlants(boolean removeUnsupportedPlants) {
+        this.removeUnsupportedPlants = removeUnsupportedPlants;
+    }
+
+    /**
+     * Whether unsupported plants should be removed for the given output target.
+     * <p>
+     * The removal is only effective for Java Edition outputs older than 1.13: those versions use recursive neighbour
+     * updates, so a plant with invalid support (e.g. a flower on top of another flower) crashes the game with a
+     * {@code StackOverflowError: Exception while updating neighbours}. Newer versions use queue-based updates and
+     * modern blocks may legitimately sustain the plants, so the world is left untouched for them.
+     *
+     * @param setting      the user setting which enables the removal.
+     * @param encodingType the encoding type of the output.
+     * @param version      the version of the output.
+     * @return true if unsupported plants should be removed for this output.
+     */
+    static boolean shouldRemoveUnsupportedPlants(boolean setting, EncodingType encodingType, Version version) {
+        return setting && encodingType == EncodingType.JAVA && version.isLessThan(1, 13, 0);
     }
 
     @Override
@@ -591,7 +625,8 @@ public class WorldConverter implements Converter {
             // If it's enabled, we need to hold the chunks using the handler
             // The Reader is responsible for solving which edges are needed
             // But we need to call the writer PreTransformManager ourselves as it's before writing.
-            boolean needsColumnPreTransform = shouldProcessColumnPreTransform() || shouldReplaceAquaticPlantsWithWater();
+            boolean removeUnsupported = shouldRemoveUnsupportedPlants(this.removeUnsupportedPlants, writer.getEncodingType(), writer.getVersion());
+            boolean needsColumnPreTransform = shouldProcessColumnPreTransform() || shouldReplaceAquaticPlantsWithWater() || removeUnsupported;
             if (needsColumnPreTransform) {
                 // preTransformAllowed indicates whether the writer-side block-connection pre-transform is allowed to
                 // queue neighbouring chunks. This must only follow the user's blockConnections setting, so that
@@ -608,7 +643,10 @@ public class WorldConverter implements Converter {
                         ),
                         shouldReplaceAquaticPlantsWithWater()
                                 ? AquaticPlantWaterReplacementPreTransformConversionHandler::new
-                                : ColumnPreTransformConversionHandler::new
+                                : ColumnPreTransformConversionHandler::new,
+                        removeUnsupported
+                                ? UnsupportedPlantRemovalPreTransformConversionHandler::new
+                                : (delegate, world) -> delegate
                 );
             } else {
                 // Add the writer handler, this ensures that the writer is still called just without connected chunks

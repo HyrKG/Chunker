@@ -45,6 +45,7 @@ public class ConvertRequest extends BasicMessage implements InvokesWorldConverte
     private final boolean preventYBiomeBlending;
     private final boolean customIdentifiers;
     private final boolean replaceAquaticPlantsWithWater;
+    private final boolean removeUnsupportedPlants;
 
     /**
      * Create a new conversion request.
@@ -71,8 +72,9 @@ public class ConvertRequest extends BasicMessage implements InvokesWorldConverte
      * @param discardEmptyChunks     whether empty chunks should not be written.
      * @param preventYBiomeBlending  whether biomes should be prevented from blending (Java).
      * @param replaceAquaticPlantsWithWater whether aquatic plants touching water should be replaced with water.
+     * @param removeUnsupportedPlants       whether plants which the output version cannot support should be removed.
      */
-    public ConvertRequest(UUID anonymousId, String inputPath, String outputPath, String outputType, @Nullable JsonObject customDimensions, @Nullable Map<String, String> inputToOutputDimension, @Nullable Map<String, String> biomeMappings, @Nullable JsonObject mappings, @Nullable JsonObject nbtSettings, @Nullable JsonArray maps, boolean copyNbt, @Nullable DimensionPruningList pruningList, boolean skipMaps, boolean skipLootTables, boolean skipItemConversion, boolean skipBlockEntities, boolean skipEntities, boolean customIdentifiers, boolean skipBlockConnections, boolean enableCompact, boolean discardEmptyChunks, boolean preventYBiomeBlending, boolean replaceAquaticPlantsWithWater) {
+    public ConvertRequest(UUID anonymousId, String inputPath, String outputPath, String outputType, @Nullable JsonObject customDimensions, @Nullable Map<String, String> inputToOutputDimension, @Nullable Map<String, String> biomeMappings, @Nullable JsonObject mappings, @Nullable JsonObject nbtSettings, @Nullable JsonArray maps, boolean copyNbt, @Nullable DimensionPruningList pruningList, boolean skipMaps, boolean skipLootTables, boolean skipItemConversion, boolean skipBlockEntities, boolean skipEntities, boolean customIdentifiers, boolean skipBlockConnections, boolean enableCompact, boolean discardEmptyChunks, boolean preventYBiomeBlending, boolean replaceAquaticPlantsWithWater, boolean removeUnsupportedPlants) {
         this.anonymousId = anonymousId;
         this.inputPath = inputPath;
         this.outputPath = outputPath;
@@ -96,6 +98,7 @@ public class ConvertRequest extends BasicMessage implements InvokesWorldConverte
         this.discardEmptyChunks = discardEmptyChunks;
         this.preventYBiomeBlending = preventYBiomeBlending;
         this.replaceAquaticPlantsWithWater = replaceAquaticPlantsWithWater;
+        this.removeUnsupportedPlants = removeUnsupportedPlants;
     }
 
     /**
@@ -124,8 +127,9 @@ public class ConvertRequest extends BasicMessage implements InvokesWorldConverte
      * @param discardEmptyChunks     whether empty chunks should not be written.
      * @param preventYBiomeBlending  whether biomes should be prevented from blending (Java).
      * @param replaceAquaticPlantsWithWater whether aquatic plants touching water should be replaced with water.
+     * @param removeUnsupportedPlants       whether plants which the output version cannot support should be removed.
      */
-    public ConvertRequest(UUID requestId, UUID anonymousId, String inputPath, String outputPath, String outputType, @Nullable JsonObject customDimensions, @Nullable Map<String, String> inputToOutputDimension, @Nullable Map<String, String> biomeMappings, @Nullable JsonObject mappings, @Nullable JsonObject nbtSettings, @Nullable JsonArray maps, boolean copyNbt, @Nullable DimensionPruningList pruningList, boolean skipMaps, boolean skipLootTables, boolean skipItemConversion, boolean skipBlockEntities, boolean skipEntities, boolean customIdentifiers, boolean skipBlockConnections, boolean enableCompact, boolean discardEmptyChunks, boolean preventYBiomeBlending, boolean replaceAquaticPlantsWithWater) {
+    public ConvertRequest(UUID requestId, UUID anonymousId, String inputPath, String outputPath, String outputType, @Nullable JsonObject customDimensions, @Nullable Map<String, String> inputToOutputDimension, @Nullable Map<String, String> biomeMappings, @Nullable JsonObject mappings, @Nullable JsonObject nbtSettings, @Nullable JsonArray maps, boolean copyNbt, @Nullable DimensionPruningList pruningList, boolean skipMaps, boolean skipLootTables, boolean skipItemConversion, boolean skipBlockEntities, boolean skipEntities, boolean customIdentifiers, boolean skipBlockConnections, boolean enableCompact, boolean discardEmptyChunks, boolean preventYBiomeBlending, boolean replaceAquaticPlantsWithWater, boolean removeUnsupportedPlants) {
         super(requestId);
         this.anonymousId = anonymousId;
         this.inputPath = inputPath;
@@ -150,6 +154,7 @@ public class ConvertRequest extends BasicMessage implements InvokesWorldConverte
         this.discardEmptyChunks = discardEmptyChunks;
         this.preventYBiomeBlending = preventYBiomeBlending;
         this.replaceAquaticPlantsWithWater = replaceAquaticPlantsWithWater;
+        this.removeUnsupportedPlants = removeUnsupportedPlants;
     }
 
     /**
@@ -367,5 +372,15 @@ public class ConvertRequest extends BasicMessage implements InvokesWorldConverte
      */
     public boolean isReplaceAquaticPlantsWithWater() {
         return replaceAquaticPlantsWithWater;
+    }
+
+    /**
+     * Whether plants which the output version cannot support (e.g. flowers stacked on flowers for Java 1.12.2 and
+     * earlier) should be removed.
+     *
+     * @return true if unsupported plants should be removed.
+     */
+    public boolean isRemoveUnsupportedPlants() {
+        return removeUnsupportedPlants;
     }
 }

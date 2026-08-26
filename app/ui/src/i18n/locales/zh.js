@@ -199,6 +199,10 @@ export const zh = {
             display: "水中水生植物替换为水",
             description: "导出时，水草、海带等水生植物若六向任一方向接触水，则直接写出为水，用于修复降级后水中的空气洞。",
         },
+        removeUnsupportedPlants: {
+            display: "删除无支撑植物",
+            description: "导出到旧版 Java（1.12.2 及更早）时，移除下方没有草/泥土/耕地支撑的花、草、树苗等植物，避免加载时因方块更新无限递归导致游戏崩溃（Exception while updating neighbours）。",
+        },
     },
     cli: {
         title: "导出 CLI 设置",

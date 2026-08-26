@@ -81,6 +81,12 @@ export class ConverterSettingsTab extends Component {
                 "name": "replaceAquaticPlantsWithWater",
                 "description": t("converter.replaceAquaticPlantsWithWater.description"),
                 "type": "Boolean"
+            },
+            {
+                "display": t("converter.removeUnsupportedPlants.display"),
+                "name": "removeUnsupportedPlants",
+                "description": t("converter.removeUnsupportedPlants.description"),
+                "type": "Boolean"
             }
         ];
 
